@@ -75,7 +75,7 @@ export default function Footer() {
           {/* Copyright Section */}
           <div className="pt-8 border-t border-gray-800/50 w-full max-w-xs">
             <p className="text-gray-600 text-[11px] tracking-widest uppercase">
-              © {currentYear} Lunive. All rights reserved.
+              © 2025 - {currentYear} Lunive. All rights reserved.
             </p>
           </div>
         </div>
