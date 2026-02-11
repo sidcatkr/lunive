@@ -1,11 +1,13 @@
-import type { ReactNode } from "react"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "@/app/globals.css"
-import ClientOnly from "@/components/ClientOnly"
-import CustomCursor from "@/components/CustomCursor"
+import type { ReactNode } from "react";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "@/app/globals.css";
+import ClientOnly from "@/components/ClientOnly";
+import CustomCursor from "@/components/CustomCursor";
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Lunive",
@@ -21,12 +23,12 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "black-translucent",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: ReactNode
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -34,8 +36,10 @@ export default function RootLayout({
         <ClientOnly>
           <CustomCursor />
         </ClientOnly>
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
-  )
+  );
 }
