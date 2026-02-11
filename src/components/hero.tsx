@@ -1,27 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import Image from "next/image"
-import { motion, animate, stagger } from "motion/react"
-import { splitText } from "@/utils/split-text"
-import { animateWithSpring } from "@/utils/spring-animations"
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+import { motion, animate, stagger } from "motion/react";
+import { splitText } from "@/utils/split-text";
+import { animateWithSpring } from "@/utils/spring-animations";
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (containerRef.current) {
       // Wait for fonts to load
       document.fonts.ready.then(() => {
-        if (!containerRef.current) return
+        if (!containerRef.current) return;
 
         // Make container visible
-        containerRef.current.style.visibility = "visible"
+        containerRef.current.style.visibility = "visible";
 
         // Split and animate first line
-        const firstLine = containerRef.current.querySelector(".first-line")
+        const firstLine = containerRef.current.querySelector(".first-line");
         if (firstLine) {
-          const chars = splitText(firstLine, { type: "chars", preserveSpaces: true })
+          const chars = splitText(firstLine, {
+            type: "chars",
+            preserveSpaces: true,
+          });
 
           animateWithSpring(
             chars,
@@ -39,13 +42,13 @@ export default function Hero() {
               delay: stagger(0.06), // Stagger each character
               duration: 1.8, // Longer duration for smoother animation
             },
-          )
+          );
         }
 
         // Split and animate wavy text
-        const wavyElement = containerRef.current.querySelector(".wavy")
+        const wavyElement = containerRef.current.querySelector(".wavy");
         if (wavyElement) {
-          const chars = splitText(wavyElement, { type: "chars" })
+          const chars = splitText(wavyElement, { type: "chars" });
 
           // Animate each character with wavy effect using spring physics
           chars.forEach((char, i) => {
@@ -59,15 +62,15 @@ export default function Hero() {
                 duration: 3.5, // Slower wave animation
                 delay: i * 0.1, // Delay between characters
               },
-            )
-          })
+            );
+          });
         }
-      })
+      });
     }
-  }, [])
+  }, []);
 
   return (
-    <section className="w-full flex flex-col items-center justify-center py-24 px-4">
+    <section className="w-full h-screen flex flex-col items-center justify-center px-4">
       <motion.div
         className="relative w-16 h-16 rounded-md overflow-hidden mb-8"
         initial={{ scale: 0 }}
@@ -79,10 +82,19 @@ export default function Hero() {
           duration: 2, // Longer duration
         }}
       >
-        <Image src="/images/logo.svg" alt="Lunive Logo" fill className="object-contain rounded-xl" />
+        <Image
+          src="/images/logo.svg"
+          alt="Lunive Logo"
+          fill
+          className="object-contain rounded-xl"
+        />
       </motion.div>
 
-      <div ref={containerRef} className="text-center max-w-3xl" style={{ visibility: "hidden" }}>
+      <div
+        ref={containerRef}
+        className="text-center max-w-3xl"
+        style={{ visibility: "hidden" }}
+      >
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
           <span className="first-line blur-transition">
             Welcome to <br className="block md:hidden" /> Lunive
@@ -90,9 +102,8 @@ export default function Hero() {
         </h1>
 
         <p className="text-xl md:text-2xl mt-4">
-            Be <span className="wavy text-yellow-300">flexible</span>.
+          Be <span className="wavy text-yellow-300">flexible</span>.
         </p>
-
       </div>
 
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -122,5 +133,5 @@ export default function Hero() {
         />
       </div>
     </section>
-  )
+  );
 }
