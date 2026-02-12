@@ -1,0 +1,48 @@
+import Link from "next/link";
+
+interface ArticleHeaderProps {
+  title: string;
+  date: string;
+  backLink?: {
+    href: string;
+    label: string;
+  };
+}
+
+export default function ArticleHeader({ title, date, backLink }: ArticleHeaderProps) {
+  return (
+    <header className="mb-16">
+      {backLink && (
+        <Link 
+          href={backLink.href}
+          className="inline-flex items-center gap-2 text-[var(--essay-muted)] hover:text-[var(--essay-text)] transition-colors mb-8 text-sm"
+        >
+          <svg 
+            width="16" 
+            height="16" 
+            viewBox="0 0 16 16" 
+            fill="none" 
+            className="transform rotate-180"
+          >
+            <path 
+              d="M6 12L10 8L6 4" 
+              stroke="currentColor" 
+              strokeWidth="1.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
+          {backLink.label}
+        </Link>
+      )}
+      
+      <h1 className="font-[family-name:var(--font-newsreader)] text-4xl md:text-5xl font-medium tracking-tight mb-4">
+        {title}
+      </h1>
+      
+      <p className="text-[var(--essay-muted)] text-sm">
+        {date}
+      </p>
+    </header>
+  );
+}
