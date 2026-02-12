@@ -8,7 +8,13 @@ interface ImageBlockProps {
   priority?: boolean;
 }
 
-export default function ImageBlock({ src, alt, caption, number, priority = false }: ImageBlockProps) {
+export default function ImageBlock({
+  src,
+  alt,
+  caption,
+  number,
+  priority = false,
+}: ImageBlockProps) {
   return (
     <figure className="my-10 relative">
       <div className="relative overflow-hidden rounded-lg bg-[var(--essay-border)]">
@@ -21,12 +27,12 @@ export default function ImageBlock({ src, alt, caption, number, priority = false
           priority={priority}
         />
         {number && (
-          <span 
+          <span
             className="absolute bottom-3 right-3 w-6 h-6 flex items-center justify-center text-xs font-medium backdrop-blur-sm rounded-full shadow-sm"
-            style={{ 
-              backgroundColor: 'var(--essay-card)', 
-              color: 'var(--essay-text)',
-              border: '1px solid var(--essay-border)'
+            style={{
+              backgroundColor: "var(--essay-card)",
+              color: "var(--essay-text)",
+              border: "1px solid var(--essay-border)",
             }}
           >
             {number}

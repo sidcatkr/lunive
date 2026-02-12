@@ -23,7 +23,7 @@ export default function TableOfContents({ items }: TableOfContentsProps) {
           }
         });
       },
-      { rootMargin: "-20% 0% -35% 0%" }
+      { rootMargin: "-20% 0% -35% 0%" },
     );
 
     items.forEach((item) => {
@@ -34,19 +34,23 @@ export default function TableOfContents({ items }: TableOfContentsProps) {
     return () => observer.disconnect();
   }, [items]);
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      const offsetTop = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-      // Update URL hash without jumping
-      history.pushState(null, '', `#${id}`);
-    }
-  }, []);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+      e.preventDefault();
+      const element = document.getElementById(id);
+      if (element) {
+        const offsetTop =
+          element.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        });
+        // Update URL hash without jumping
+        history.pushState(null, "", `#${id}`);
+      }
+    },
+    [],
+  );
 
   return (
     <nav className="hidden lg:block fixed left-8 top-1/2 -translate-y-1/2 z-50">
