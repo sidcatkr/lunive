@@ -72,7 +72,11 @@ export default function ArticleHeader({
         )}
       </div>
 
-      <div className="border-t border-[var(--essay-border)]" role="separator" aria-hidden="true" />
+      <div
+        className="border-t border-[var(--essay-border)]"
+        role="separator"
+        aria-hidden="true"
+      />
     </header>
   );
 }

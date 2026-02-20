@@ -49,7 +49,7 @@ document.documentElement.setAttribute('data-essay-theme',dark?'dark':'light');
 if(window.location.pathname.startsWith('/stories')){
   document.documentElement.setAttribute('data-stories','true');
 }
-}catch(e){}})()`
+}catch(e){}})()`,
           }}
         />
       </head>

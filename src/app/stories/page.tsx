@@ -18,7 +18,10 @@ export default function StoriesIndexPage() {
         <p className="text-[var(--essay-muted)] text-base mb-8">
           Essays, observations, and long-form writing.
         </p>
-        <div className="border-t border-[var(--essay-border)]" aria-hidden="true" />
+        <div
+          className="border-t border-[var(--essay-border)]"
+          aria-hidden="true"
+        />
       </header>
 
       {stories.length === 0 ? (

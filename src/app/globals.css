@@ -15,8 +15,16 @@ html {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
-  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 0);
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 0
+  );
   background-size: 40px 40px;
   background-position: -19px -19px;
 }
@@ -53,7 +61,9 @@ html[data-essay-theme="dark"] .stories-layout {
   background-color: var(--essay-bg, #fafaf9);
   color: var(--essay-text, #1a1a1a);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 .stories-layout * {
   cursor: auto !important;
@@ -62,7 +72,10 @@ html[data-essay-theme="dark"] .stories-layout {
 .stories-layout [class*="border-"],
 .stories-layout [class*="divide-"] > * + *,
 .stories-layout [role="separator"] {
-  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 /* ── Body / html reset for stories pages ─────────────────────────────────── */
@@ -85,7 +98,10 @@ html[data-stories][data-essay-theme="dark"] body {
 
 /* ── Navbar (body > header only — not page-level <header> elements) ─────── */
 html[data-stories] body > header {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
   border-bottom: 1px solid transparent;
 }
 html[data-stories] body > header span,
@@ -129,7 +145,9 @@ html[data-stories][data-essay-theme="light"] footer,
 html[data-stories]:not([data-essay-theme]) footer {
   background-color: #fafaf9 !important;
   border-color: #e5e5e5 !important;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 html[data-stories][data-essay-theme="light"] footer p,
 html[data-stories][data-essay-theme="light"] footer span,
@@ -146,7 +164,9 @@ html[data-stories]:not([data-essay-theme]) footer strong {
 html[data-stories][data-essay-theme="dark"] footer {
   background-color: #0a0a0a !important;
   border-color: #262626 !important;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 html[data-stories] footer p,
 html[data-stories] footer span,
@@ -169,20 +189,26 @@ html[data-stories][data-essay-theme="dark"] footer strong {
   font-size: 1.125rem;
   line-height: 1.8;
 }
-.prose-essay p { margin-bottom: 1.5rem; }
+.prose-essay p {
+  margin-bottom: 1.5rem;
+}
 .prose-essay a {
   color: var(--essay-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.prose-essay a:hover { text-decoration-color: transparent; }
+.prose-essay a:hover {
+  text-decoration-color: transparent;
+}
 .prose-essay blockquote {
   border-left: 3px solid var(--essay-border);
   padding-left: 1.5rem;
   margin: 2rem 0;
   font-style: italic;
   color: var(--essay-muted);
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 .prose-essay code {
   font-size: 0.875em;
@@ -191,19 +217,33 @@ html[data-stories][data-essay-theme="dark"] footer strong {
   border-radius: 4px;
   font-family: ui-monospace, monospace;
 }
-.prose-essay pre code { background: transparent; padding: 0; }
+.prose-essay pre code {
+  background: transparent;
+  padding: 0;
+}
 .prose-essay ul,
-.prose-essay ol { margin: 1.5rem 0; padding-left: 1.5rem; }
-.prose-essay li { margin-bottom: 0.5rem; }
-.prose-essay .footnotes ol { list-style: decimal; }
+.prose-essay ol {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+.prose-essay li {
+  margin-bottom: 0.5rem;
+}
+.prose-essay .footnotes ol {
+  list-style: decimal;
+}
 .prose-essay .footnotes li {
   font-size: 0.875rem;
   color: var(--essay-muted);
   font-family: var(--font-inter), system-ui, sans-serif;
 }
-.prose-essay .footnotes a { color: var(--essay-accent); }
+.prose-essay .footnotes a {
+  color: var(--essay-accent);
+}
 @media (max-width: 1024px) {
-  .prose-essay { font-size: 1.0625rem; }
+  .prose-essay {
+    font-size: 1.0625rem;
+  }
 }
 
 .split-word {

@@ -94,7 +94,8 @@ export default function StoriesLayout({
               boxShadow: isDark
                 ? "0 2px 10px rgba(0,0,0,0.5)"
                 : "0 2px 10px rgba(0,0,0,0.1)",
-              transition: "background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+              transition:
+                "background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
             }}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
