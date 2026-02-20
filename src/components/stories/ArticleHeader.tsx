@@ -25,7 +25,7 @@ export default function ArticleHeader({
     : "";
 
   return (
-    <header className="mb-16">
+    <header className="mb-12">
       {backLink && (
         <Link
           href={backLink.href}
@@ -54,26 +54,25 @@ export default function ArticleHeader({
         {title}
       </h1>
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 mb-8">
         {formatted && (
           <p className="text-[var(--essay-muted)] text-sm">{formatted}</p>
         )}
         {tags && tags.length > 0 && (
-          <>
-            <span className="text-[var(--essay-border)] text-sm">·</span>
-            <div className="flex gap-2 flex-wrap">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-xs px-2 py-0.5 rounded-full border border-[var(--essay-border)] text-[var(--essay-muted)]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </>
+          <div className="flex gap-2 flex-wrap">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-2 py-0.5 rounded-full border border-[var(--essay-border)] text-[var(--essay-muted)]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </div>
+
+      <div className="border-t border-[var(--essay-border)]" role="separator" aria-hidden="true" />
     </header>
   );
 }

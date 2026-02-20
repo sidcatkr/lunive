@@ -10,20 +10,21 @@ export default function StoriesIndexPage() {
   const stories = getAllStories();
 
   return (
-    <main className="max-w-[680px] mx-auto px-6 py-24">
-      <header className="mb-16">
+    <main className="max-w-2xl mx-auto px-6 py-24">
+      <header className="mb-12">
         <h1 className="font-[family-name:var(--font-newsreader)] text-4xl md:text-5xl font-medium tracking-tight mb-3">
           Stories
         </h1>
-        <p className="text-[var(--essay-muted)] text-base">
+        <p className="text-[var(--essay-muted)] text-base mb-8">
           Essays, observations, and long-form writing.
         </p>
+        <div className="border-t border-[var(--essay-border)]" aria-hidden="true" />
       </header>
 
       {stories.length === 0 ? (
         <p className="text-[var(--essay-muted)]">No stories yet.</p>
       ) : (
-        <ul className="space-y-0 divide-y divide-[var(--essay-border)]">
+        <ul className="divide-y divide-[var(--essay-border)]">
           {stories.map((story) => {
             const formatted = story.date
               ? new Date(story.date).toLocaleDateString("en-US", {
@@ -37,7 +38,7 @@ export default function StoriesIndexPage() {
               <li key={story.slug}>
                 <Link
                   href={`/stories/${story.slug}`}
-                  className="group block py-8 transition-opacity duration-200 hover:opacity-80"
+                  className="group block py-6 transition-opacity duration-200 hover:opacity-80"
                 >
                   <div className="flex items-baseline justify-between gap-4 mb-1">
                     <h2 className="font-[family-name:var(--font-newsreader)] text-xl font-medium text-[var(--essay-text)] group-hover:text-[var(--essay-accent)] transition-colors">

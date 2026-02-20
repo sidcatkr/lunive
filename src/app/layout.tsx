@@ -34,7 +34,25 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Blocking script — runs SYNCHRONOUSLY before first paint.
+            1. Sets data-essay-theme on <html> so CSS variable selectors apply immediately.
+            2. Sets data-stories on <body> when on a /stories route so navbar/footer
+               CSS applies without needing :has() or any React state. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{
+var t=localStorage.getItem('essay-theme');
+var dark=t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.setAttribute('data-essay-theme',dark?'dark':'light');
+if(window.location.pathname.startsWith('/stories')){
+  document.documentElement.setAttribute('data-stories','true');
+}
+}catch(e){}})()`
+          }}
+        />
+      </head>
       <body className={inter.className}>
         <ClientOnly>
           <CustomCursor />

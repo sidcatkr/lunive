@@ -21,6 +21,191 @@ body {
   background-position: -19px -19px;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   STORIES — All CSS declared in globals.css so it's available at first paint.
+   Driven by html[data-essay-theme] attribute set by the blocking <script>
+   in app/layout.tsx BEFORE React hydrates → zero flash on any browser/device.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── CSS custom properties ────────────────────────────────────────────────── */
+html[data-essay-theme="light"] .stories-layout,
+html:not([data-essay-theme]) .stories-layout {
+  --essay-bg: #fafaf9;
+  --essay-text: #1a1a1a;
+  --essay-muted: #6b6b6b;
+  --essay-border: #e5e5e5;
+  --essay-accent: #3b82f6;
+  --essay-card: #ffffff;
+  --essay-code-bg: rgba(0, 0, 0, 0.05);
+}
+html[data-essay-theme="dark"] .stories-layout {
+  --essay-bg: #0a0a0a;
+  --essay-text: #e5e5e5;
+  --essay-muted: #a3a3a3;
+  --essay-border: #262626;
+  --essay-accent: #60a5fa;
+  --essay-card: #171717;
+  --essay-code-bg: rgba(255, 255, 255, 0.1);
+}
+
+/* ── stories-layout base ──────────────────────────────────────────────────── */
+.stories-layout {
+  background-color: var(--essay-bg, #fafaf9);
+  color: var(--essay-text, #1a1a1a);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.stories-layout * {
+  cursor: auto !important;
+}
+/* Smooth border/divide/color transitions on ALL descendants during theme toggle */
+.stories-layout [class*="border-"],
+.stories-layout [class*="divide-"] > * + *,
+.stories-layout [role="separator"] {
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+/* ── Body / html reset for stories pages ─────────────────────────────────── */
+/* data-stories is set on <html> by the blocking script (document.body is    */
+/* null when <head> scripts run, so we use documentElement instead).          */
+html[data-stories] body {
+  transition: background-color 0.3s ease;
+}
+html[data-stories][data-essay-theme="light"] body,
+html[data-stories]:not([data-essay-theme]) body {
+  background: #fafaf9 !important;
+  background-image: none !important;
+  overflow-x: hidden;
+}
+html[data-stories][data-essay-theme="dark"] body {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  overflow-x: hidden;
+}
+
+/* ── Navbar (body > header only — not page-level <header> elements) ─────── */
+html[data-stories] body > header {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+html[data-stories] body > header span,
+html[data-stories] body > header nav,
+html[data-stories] body > header a,
+html[data-stories] body > header button {
+  transition: color 0.3s ease;
+}
+html[data-stories][data-essay-theme="light"] body > header,
+html[data-stories]:not([data-essay-theme]) body > header {
+  background-color: rgba(250, 250, 249, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom-color: #e5e5e5 !important;
+}
+html[data-stories][data-essay-theme="light"] body > header span,
+html[data-stories][data-essay-theme="light"] body > header nav,
+html[data-stories][data-essay-theme="light"] body > header a,
+html[data-stories][data-essay-theme="light"] body > header button,
+html[data-stories]:not([data-essay-theme]) body > header span,
+html[data-stories]:not([data-essay-theme]) body > header nav,
+html[data-stories]:not([data-essay-theme]) body > header a,
+html[data-stories]:not([data-essay-theme]) body > header button {
+  color: #1a1a1a !important;
+}
+html[data-stories][data-essay-theme="dark"] body > header {
+  background-color: rgba(10, 10, 10, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom-color: #262626 !important;
+}
+html[data-stories][data-essay-theme="dark"] body > header span,
+html[data-stories][data-essay-theme="dark"] body > header nav,
+html[data-stories][data-essay-theme="dark"] body > header a,
+html[data-stories][data-essay-theme="dark"] body > header button {
+  color: #e5e5e5 !important;
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+html[data-stories][data-essay-theme="light"] footer,
+html[data-stories]:not([data-essay-theme]) footer {
+  background-color: #fafaf9 !important;
+  border-color: #e5e5e5 !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+html[data-stories][data-essay-theme="light"] footer p,
+html[data-stories][data-essay-theme="light"] footer span,
+html[data-stories][data-essay-theme="light"] footer a,
+html[data-stories]:not([data-essay-theme]) footer p,
+html[data-stories]:not([data-essay-theme]) footer span,
+html[data-stories]:not([data-essay-theme]) footer a {
+  color: #6b6b6b !important;
+}
+html[data-stories][data-essay-theme="light"] footer strong,
+html[data-stories]:not([data-essay-theme]) footer strong {
+  color: #1a1a1a !important;
+}
+html[data-stories][data-essay-theme="dark"] footer {
+  background-color: #0a0a0a !important;
+  border-color: #262626 !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+html[data-stories] footer p,
+html[data-stories] footer span,
+html[data-stories] footer a,
+html[data-stories] footer strong {
+  transition: color 0.3s ease;
+}
+html[data-stories][data-essay-theme="dark"] footer p,
+html[data-stories][data-essay-theme="dark"] footer span,
+html[data-stories][data-essay-theme="dark"] footer a {
+  color: #a3a3a3 !important;
+}
+html[data-stories][data-essay-theme="dark"] footer strong {
+  color: #e5e5e5 !important;
+}
+
+/* ── Prose essay styles ───────────────────────────────────────────────────── */
+.prose-essay {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+.prose-essay p { margin-bottom: 1.5rem; }
+.prose-essay a {
+  color: var(--essay-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-essay a:hover { text-decoration-color: transparent; }
+.prose-essay blockquote {
+  border-left: 3px solid var(--essay-border);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--essay-muted);
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+.prose-essay code {
+  font-size: 0.875em;
+  background: var(--essay-code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+}
+.prose-essay pre code { background: transparent; padding: 0; }
+.prose-essay ul,
+.prose-essay ol { margin: 1.5rem 0; padding-left: 1.5rem; }
+.prose-essay li { margin-bottom: 0.5rem; }
+.prose-essay .footnotes ol { list-style: decimal; }
+.prose-essay .footnotes li {
+  font-size: 0.875rem;
+  color: var(--essay-muted);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+.prose-essay .footnotes a { color: var(--essay-accent); }
+@media (max-width: 1024px) {
+  .prose-essay { font-size: 1.0625rem; }
+}
+
 .split-word {
   will-change: transform, opacity;
   display: inline-block;

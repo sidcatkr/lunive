@@ -34,7 +34,7 @@ export default function StoryContent({
           backLink={{ href: "/stories", label: "Stories" }}
         />
 
-        <article className="prose-essay">
+        <article className="prose-essay pt-10">
           <MarkdownRenderer content={story.content} />
         </article>
 
