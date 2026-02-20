@@ -81,18 +81,34 @@ html[data-essay-theme="dark"] .stories-layout {
 /* ── Body / html reset for stories pages ─────────────────────────────────── */
 /* data-stories is set on <html> by the blocking script (document.body is    */
 /* null when <head> scripts run, so we use documentElement instead).          */
+/* Override BOTH html and body backgrounds — on iOS Safari the html bg-color */
+/* bleeds through during overscroll bounce and compositing.                   */
+html[data-stories] {
+  transition: background-color 0.3s ease;
+}
 html[data-stories] body {
   transition: background-color 0.3s ease;
 }
+html[data-stories][data-essay-theme="light"],
+html[data-stories]:not([data-essay-theme]) {
+  background-color: #fafaf9 !important;
+}
 html[data-stories][data-essay-theme="light"] body,
 html[data-stories]:not([data-essay-theme]) body {
-  background: #fafaf9 !important;
+  background-color: #fafaf9 !important;
   background-image: none !important;
+  background-size: unset !important;
+  background-position: unset !important;
   overflow-x: hidden;
 }
+html[data-stories][data-essay-theme="dark"] {
+  background-color: #0a0a0a !important;
+}
 html[data-stories][data-essay-theme="dark"] body {
-  background: #0a0a0a !important;
+  background-color: #0a0a0a !important;
   background-image: none !important;
+  background-size: unset !important;
+  background-position: unset !important;
   overflow-x: hidden;
 }
 
