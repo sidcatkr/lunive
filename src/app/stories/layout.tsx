@@ -43,16 +43,40 @@ export default function StoriesLayout({
     }
 
     document.body.classList.add("stories-page");
-    return () => document.body.classList.remove("stories-page");
+    // Set initial html/body backgrounds to prevent dark dot-grid from showing through
+    const initialBg =
+      localStorage.getItem("essay-theme") === "dark" ||
+      (!localStorage.getItem("essay-theme") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ? "#0a0a0a"
+        : "#fafaf9";
+    document.documentElement.style.backgroundColor = initialBg;
+    document.documentElement.style.backgroundImage = "none";
+    document.body.style.background = initialBg;
+    document.body.style.backgroundImage = "none";
+    return () => {
+      document.body.classList.remove("stories-page");
+      // Restore original backgrounds
+      document.documentElement.style.backgroundColor = "";
+      document.documentElement.style.backgroundImage = "";
+      document.body.style.background = "";
+      document.body.style.backgroundImage = "";
+    };
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
+    const bg = isDark ? "#0a0a0a" : "#fafaf9";
     if (isDark) {
       document.body.classList.add("stories-dark");
     } else {
       document.body.classList.remove("stories-dark");
     }
+    // Override html/body backgrounds to prevent flash artifact during theme switch
+    document.documentElement.style.backgroundColor = bg;
+    document.documentElement.style.backgroundImage = "none";
+    document.body.style.background = bg;
+    document.body.style.backgroundImage = "none";
   }, [isDark, mounted]);
 
   const toggleTheme = () => {
@@ -104,6 +128,18 @@ export default function StoriesLayout({
             --essay-accent: #60a5fa;
             --essay-card: #171717;
             --essay-code-bg: rgba(255, 255, 255, 0.1);
+          }
+
+          /* ── Prevent body/html dark background from showing through ───── */
+          body.stories-page {
+            background: #fafaf9 !important;
+            background-image: none !important;
+            overflow-x: hidden;
+          }
+
+          body.stories-page.stories-dark {
+            background: #0a0a0a !important;
+            background-image: none !important;
           }
 
           /* Reset cursor inside stories layout */

@@ -27,7 +27,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import Image from "next/image";
 import type { Components } from "react-markdown";
-import type { Element } from "hast";
+import type { Element, ElementContent } from "hast";
 import { slugify } from "@/lib/slugify";
 
 // ─── Utility ─────────────────────────────────────────────────────────────────
@@ -247,7 +247,8 @@ const components: Components = {
   sup: ({ children, node }) => {
     const hNode = node as Element;
     const hasAnchor = hNode?.children?.some(
-      (c) => c.type === "element" && (c as Element).tagName === "a",
+      (c: ElementContent) =>
+        c.type === "element" && (c as Element).tagName === "a",
     );
     if (hasAnchor) {
       return (

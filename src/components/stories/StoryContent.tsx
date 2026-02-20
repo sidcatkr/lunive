@@ -26,7 +26,7 @@ export default function StoryContent({
     <>
       <TableOfContents items={story.toc} />
 
-      <main className="max-w-[680px] mx-auto px-6 py-16 md:py-24">
+      <main className="max-w-[680px] mx-auto px-6 py-24">
         <ArticleHeader
           title={story.title}
           date={story.date}

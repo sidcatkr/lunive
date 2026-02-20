@@ -10,7 +10,7 @@ export default function StoriesIndexPage() {
   const stories = getAllStories();
 
   return (
-    <main className="max-w-[680px] mx-auto px-6 py-16 md:py-24">
+    <main className="max-w-[680px] mx-auto px-6 py-24">
       <header className="mb-16">
         <h1 className="font-[family-name:var(--font-newsreader)] text-4xl md:text-5xl font-medium tracking-tight mb-3">
           Stories
