@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getAllStories, getStoryBySlug, getAdjacentStories } from "@/lib/stories";
+import {
+  getAllStories,
+  getStoryBySlug,
+  getAdjacentStories,
+} from "@/lib/stories";
 import StoryContent from "@/components/stories/StoryContent";
 
 // ─── Static generation ────────────────────────────────────────────────────────

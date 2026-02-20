@@ -65,7 +65,9 @@ export default function StoriesLayout({
 
   if (!mounted) {
     return (
-      <div className={`${inter.variable} ${newsreader.variable} stories-layout`}>
+      <div
+        className={`${inter.variable} ${newsreader.variable} stories-layout`}
+      >
         <div className="min-h-screen" />
       </div>
     );
@@ -89,7 +91,9 @@ export default function StoriesLayout({
             background-color: var(--essay-bg);
             color: var(--essay-text);
             min-height: 100vh;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition:
+              background-color 0.3s ease,
+              color 0.3s ease;
           }
 
           .stories-layout.dark {
@@ -113,45 +117,81 @@ export default function StoriesLayout({
             backdrop-filter: blur(12px) !important;
             -webkit-backdrop-filter: blur(12px) !important;
             border-bottom: 1px solid #e5e5e5;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition:
+              background-color 0.3s ease,
+              border-color 0.3s ease;
           }
           body.stories-page header span,
-          body.stories-page header nav { color: #1a1a1a !important; }
-          body.stories-page header a { color: #1a1a1a !important; }
-          body.stories-page header a:hover { color: #3b82f6 !important; }
-          body.stories-page header button { color: #1a1a1a !important; }
+          body.stories-page header nav {
+            color: #1a1a1a !important;
+          }
+          body.stories-page header a {
+            color: #1a1a1a !important;
+          }
+          body.stories-page header a:hover {
+            color: #3b82f6 !important;
+          }
+          body.stories-page header button {
+            color: #1a1a1a !important;
+          }
 
           body.stories-page.stories-dark header {
             background-color: rgba(10, 10, 10, 0.8) !important;
             border-bottom: 1px solid #262626;
           }
           body.stories-page.stories-dark header span,
-          body.stories-page.stories-dark header nav { color: #e5e5e5 !important; }
-          body.stories-page.stories-dark header a { color: #e5e5e5 !important; }
-          body.stories-page.stories-dark header a:hover { color: #60a5fa !important; }
-          body.stories-page.stories-dark header button { color: #e5e5e5 !important; }
+          body.stories-page.stories-dark header nav {
+            color: #e5e5e5 !important;
+          }
+          body.stories-page.stories-dark header a {
+            color: #e5e5e5 !important;
+          }
+          body.stories-page.stories-dark header a:hover {
+            color: #60a5fa !important;
+          }
+          body.stories-page.stories-dark header button {
+            color: #e5e5e5 !important;
+          }
 
           /* ── Footer ────────────────────────────────────────────────────── */
           body.stories-page footer {
             background-color: #fafaf9 !important;
             border-color: #e5e5e5 !important;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            transition:
+              background-color 0.3s ease,
+              border-color 0.3s ease;
           }
           body.stories-page footer p,
-          body.stories-page footer span { color: #6b6b6b !important; }
-          body.stories-page footer strong { color: #1a1a1a !important; }
-          body.stories-page footer a { color: #6b6b6b !important; }
-          body.stories-page footer a:hover { color: #1a1a1a !important; }
+          body.stories-page footer span {
+            color: #6b6b6b !important;
+          }
+          body.stories-page footer strong {
+            color: #1a1a1a !important;
+          }
+          body.stories-page footer a {
+            color: #6b6b6b !important;
+          }
+          body.stories-page footer a:hover {
+            color: #1a1a1a !important;
+          }
 
           body.stories-page.stories-dark footer {
             background-color: #0a0a0a !important;
             border-color: #262626 !important;
           }
           body.stories-page.stories-dark footer p,
-          body.stories-page.stories-dark footer span { color: #a3a3a3 !important; }
-          body.stories-page.stories-dark footer strong { color: #e5e5e5 !important; }
-          body.stories-page.stories-dark footer a { color: #a3a3a3 !important; }
-          body.stories-page.stories-dark footer a:hover { color: #e5e5e5 !important; }
+          body.stories-page.stories-dark footer span {
+            color: #a3a3a3 !important;
+          }
+          body.stories-page.stories-dark footer strong {
+            color: #e5e5e5 !important;
+          }
+          body.stories-page.stories-dark footer a {
+            color: #a3a3a3 !important;
+          }
+          body.stories-page.stories-dark footer a:hover {
+            color: #e5e5e5 !important;
+          }
 
           /* ── Prose styles (shared across all stories) ──────────────────── */
           .prose-essay {
@@ -221,7 +261,9 @@ export default function StoriesLayout({
           }
 
           @media (max-width: 1024px) {
-            .prose-essay { font-size: 1.0625rem; }
+            .prose-essay {
+              font-size: 1.0625rem;
+            }
           }
         `}</style>
 
@@ -239,7 +281,16 @@ export default function StoriesLayout({
           aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         >
           {isDark ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <circle cx="12" cy="12" r="5" />
               <line x1="12" y1="1" x2="12" y2="3" />
               <line x1="12" y1="21" x2="12" y2="23" />
@@ -251,7 +302,16 @@ export default function StoriesLayout({
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
           ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           )}

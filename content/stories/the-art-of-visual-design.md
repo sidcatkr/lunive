@@ -56,7 +56,11 @@ Tortor aliquam nulla facilisi cras fermentum odio eu. Facilisi etiam dignissim d
 Arcu cursus euismod quis viverra nibh cras. Sed turpis tincidunt id aliquet risus feugiat in ante metus. In fermentum posuere urna nec tincidunt praesent semper. The journey of learning design is continuous, with each project offering new lessons and perspectives.
 
 [^1]: Nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet non curabitur gravida.
+
 [^2]: Nam libero justo laoreet sit amet cursus sit amet dictum sit amet justo.
+
 [^3]: The relationship between positive and negative space defines the visual weight of a composition.
+
 [^4]: Good typography is invisible—it simply facilitates reading without drawing attention to itself.
+
 [^5]: Rhythm in design creates a sense of movement that guides the viewer through the content.

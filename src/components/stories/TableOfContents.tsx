@@ -51,7 +51,10 @@ export default function TableOfContents({ items }: TableOfContentsProps) {
     <nav className="hidden lg:block fixed left-8 top-1/2 -translate-y-1/2 z-50">
       <ul className="space-y-3">
         {items.map((item) => (
-          <li key={item.id} style={{ paddingLeft: item.level === 3 ? "0.75rem" : 0 }}>
+          <li
+            key={item.id}
+            style={{ paddingLeft: item.level === 3 ? "0.75rem" : 0 }}
+          >
             <a
               href={`#${item.id}`}
               onClick={(e) => handleClick(e, item.id)}

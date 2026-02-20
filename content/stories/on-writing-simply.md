@@ -15,9 +15,9 @@ Writers, especially early in their development, mistake complexity for depth. Th
 
 Complexity in prose is easy. Clarity is the real achievement.
 
-Consider a sentence like: *"The aforementioned considerations, when taken in aggregate, present a compelling argument for the reconsideration of established paradigms as they relate to the aforementioned subject matter."*
+Consider a sentence like: _"The aforementioned considerations, when taken in aggregate, present a compelling argument for the reconsideration of established paradigms as they relate to the aforementioned subject matter."_
 
-Compare it to: *"This changes everything."*
+Compare it to: _"This changes everything."_
 
 The first sentence says nothing. The second says it all.
 
@@ -27,7 +27,7 @@ Editing is not subtraction — it is revelation. Every word you remove makes the
 
 Ernest Hemingway developed the "iceberg theory": only a fraction of the story appears on the surface, but the weight of everything beneath it is felt. Remove the unnecessary, and the necessary becomes powerful.
 
-When you finish a draft, ask of every sentence: *does this earn its place?* Not "is this a good sentence?" — many good sentences have no business being in a given piece. Ask only: does this move the reader closer to the truth you are trying to express?
+When you finish a draft, ask of every sentence: _does this earn its place?_ Not "is this a good sentence?" — many good sentences have no business being in a given piece. Ask only: does this move the reader closer to the truth you are trying to express?
 
 If the answer is no, cut it.
 
@@ -45,5 +45,6 @@ But the payoff is lasting. A sentence that says exactly what it means, with no u
 
 Write clearly. Cut mercilessly. Read it aloud. Repeat.
 
-[^1]: George Orwell's six rules for writing, from *Politics and the English Language* (1946), remain the most useful single guide to plain prose.
-[^2]: The "iceberg theory" appears in Hemingway's *Death in the Afternoon* (1932): "If a writer of prose knows enough of what he is writing about he may omit things that he knows and the reader, if the writer is writing truly enough, will have a feeling of those things as strongly as though the writer had stated them."
+[^1]: George Orwell's six rules for writing, from _Politics and the English Language_ (1946), remain the most useful single guide to plain prose.
+
+[^2]: The "iceberg theory" appears in Hemingway's _Death in the Afternoon_ (1932): "If a writer of prose knows enough of what he is writing about he may omit things that he knows and the reader, if the writer is writing truly enough, will have a feeling of those things as strongly as though the writer had stated them."

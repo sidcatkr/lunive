@@ -222,8 +222,7 @@ const components: Components = {
     const hNode = node as Element;
     const classes = (hNode?.properties?.className ?? []) as string[];
     const isFootnotes =
-      hNode?.properties?.dataFootnotes ||
-      classes.includes("footnotes");
+      hNode?.properties?.dataFootnotes || classes.includes("footnotes");
     if (isFootnotes) {
       return (
         <section
