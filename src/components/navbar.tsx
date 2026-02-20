@@ -30,7 +30,7 @@ export default function Navbar() {
           : "bg-transparent py-3"
       }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center ">
+      <div className="container mx-auto px-4 flex items-center relative">
         <Link href="/" className="flex items-center space-x-2">
           <Image
             src="/images/logo.svg"
@@ -44,7 +44,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className=" text-white font-semibold fixed container mx-auto w-full">
+        <nav className="absolute left-1/2 -translate-x-1/2 text-white font-semibold">
           <ul className="flex justify-center space-x-4">
             <li>
               <Link href="/" className="hover:underline">
@@ -60,7 +60,7 @@ export default function Navbar() {
         </nav>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-6 ml-auto">
           <SearchOverlay />
         </nav>
 

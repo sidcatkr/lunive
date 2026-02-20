@@ -38,16 +38,26 @@ export default function Footer() {
               <strong>Lunive™</strong> provides services exclusively through our
               official website and verified channels. We are not affiliated
               with, nor do we endorse, any third-party applications or websites
-              of the same name currently available on external platforms.
+              of the same name currently available on external platforms. Any
+              contact or service claiming to be "Lunive" outside of our official
+              channels — especially in the context of dating, personal
+              relationships, or financial schemes —{" "}
+              <strong>is not affiliated with us in any way.</strong>
             </p>
 
             {/* 2. Trademark Notice */}
             <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed">
               The names, logos, and icons identifying <strong>Lunive™</strong>{" "}
-              are proprietary marks of <strong>Lunive</strong>. Unauthorized use
-              of any trademark or service mark may violate applicable trademark
-              and unfair competition laws. No license is granted without the
-              express written consent of <strong>Lunive</strong>.
+              are proprietary marks of <strong>Lunive</strong>, filed with the
+              Korean Intellectual Property Office (KIPO) under Application No.{" "}
+              <strong className="font-mono tracking-wide text-gray-500">
+                40-2026-0034321
+              </strong>{" "}
+              (Class 9 &amp; 42), currently pending registration with priority
+              rights established. Unauthorized use of any trademark or service
+              mark may violate applicable trademark and unfair competition laws.
+              No license is granted without the express written consent of{" "}
+              <strong>Lunive</strong>.
             </p>
           </div>
 
