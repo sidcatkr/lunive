@@ -1,70 +1,63 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "motion/react"
-import { Search, X } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Search, X } from "lucide-react";
 
 export default function SearchOverlay() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const overlayRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   // Focus input when overlay opens
   useEffect(() => {
     if (isOpen && searchInputRef.current) {
-      searchInputRef.current.focus()
+      searchInputRef.current.focus();
     }
-  }, [isOpen])
+  }, [isOpen]);
 
-  // Handle click outside to close
+  // Handle click outside and escape key to close
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (e: MouseEvent) => {
-      if (overlayRef.current && !overlayRef.current.contains(e.target as Node)) {
-        setIsOpen(false)
+      if (
+        overlayRef.current &&
+        !overlayRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
       }
-    }
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [isOpen])
-
-  // Handle escape key to close
-  useEffect(() => {
+    };
     const handleEscKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
 
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscKey)
-    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscKey);
 
     return () => {
-      document.removeEventListener("keydown", handleEscKey)
-    }
-  }, [isOpen])
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }, [isOpen]);
 
   const toggleSearch = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
     if (!isOpen) {
-      setSearchQuery("")
+      setSearchQuery("");
     }
-  }
+  };
 
   const handleClearOrClose = () => {
     if (searchQuery) {
-      setSearchQuery("")
+      setSearchQuery("");
     } else {
-      setIsOpen(false)
+      setIsOpen(false);
     }
-  }
+  };
 
   return (
     <>
@@ -78,16 +71,17 @@ export default function SearchOverlay() {
       </button>
 
       <AnimatePresence>
-        {isOpen &&
-          (
-            <motion.div
+        {isOpen && (
+          <motion.div
             className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] bg-black/60"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
-            <motion.div ref={overlayRef} className="w-full max-w-2xl mx-4"
+            <motion.div
+              ref={overlayRef}
+              className="w-full max-w-2xl mx-4"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
@@ -123,14 +117,16 @@ export default function SearchOverlay() {
                   transition={{ delay: 0.1 }}
                 >
                   <p className="text-gray-400">
-                    {searchQuery.length > 0 ? `Searching for "${searchQuery}"...` : "Start typing to search"}
+                    {searchQuery.length > 0
+                      ? `Searching for "${searchQuery}"...`
+                      : "Start typing to search"}
                   </p>
                 </motion.div>
               )}
             </motion.div>
           </motion.div>
-          )}
+        )}
       </AnimatePresence>
     </>
-  )
+  );
 }

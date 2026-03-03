@@ -12,13 +12,20 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    let rafId = 0;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        setIsScrolled(window.scrollY > 10);
+        rafId = 0;
+      });
     };
-    // Set initial state without causing hydration mismatch
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -30,7 +37,7 @@ export default function Navbar() {
           : "bg-transparent py-3"
       }`}
     >
-      <div className="container mx-auto px-4 flex items-center relative">
+      <div className="container mx-auto px-4 flex items-center">
         <Link href="/" className="flex items-center space-x-2">
           <Image
             src="/images/logo.svg"
@@ -45,7 +52,7 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 text-white font-semibold">
-          <ul className="flex justify-center space-x-4">
+          <ul className="flex justify-center space-x-8">
             <li>
               <Link href="/" className="hover:underline">
                 Home
@@ -54,6 +61,11 @@ export default function Navbar() {
             <li>
               <Link href="/legal" className="hover:underline">
                 Legal
+              </Link>
+            </li>
+            <li>
+              <Link href="/stories" className="hover:underline">
+                Stories
               </Link>
             </li>
           </ul>

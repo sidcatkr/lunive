@@ -1,5 +1,3 @@
-"use client";
-
 export default function LegalPage() {
   return (
     <div className="min-h-screen">

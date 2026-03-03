@@ -64,9 +64,7 @@ html[data-essay-theme="dark"] .stories-layout {
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
-}
-.stories-layout * {
-  cursor: auto !important;
+  cursor: auto;
 }
 /* Smooth border/divide/color transitions on ALL descendants during theme toggle */
 .stories-layout [class*="border-"],
@@ -116,9 +114,7 @@ html[data-stories][data-essay-theme="dark"] body {
 html[data-stories] body > header {
   transition:
     background-color 0.3s ease,
-    border-color 0.3s ease,
     color 0.3s ease;
-  border-bottom: 1px solid transparent;
 }
 html[data-stories] body > header span,
 html[data-stories] body > header nav,
@@ -131,7 +127,6 @@ html[data-stories]:not([data-essay-theme]) body > header {
   background-color: rgba(250, 250, 249, 0.85) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom-color: #e5e5e5 !important;
 }
 html[data-stories][data-essay-theme="light"] body > header span,
 html[data-stories][data-essay-theme="light"] body > header nav,
@@ -147,7 +142,6 @@ html[data-stories][data-essay-theme="dark"] body > header {
   background-color: rgba(10, 10, 10, 0.85) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom-color: #262626 !important;
 }
 html[data-stories][data-essay-theme="dark"] body > header span,
 html[data-stories][data-essay-theme="dark"] body > header nav,
@@ -263,12 +257,10 @@ html[data-stories][data-essay-theme="dark"] footer strong {
 }
 
 .split-word {
-  will-change: transform, opacity;
   display: inline-block;
 }
 
 .split-char {
-  will-change: transform, opacity;
   display: inline-block;
 }
 
@@ -295,7 +287,7 @@ html[data-stories][data-essay-theme="dark"] footer strong {
 
 /* Add will-change for better performance on animations */
 .will-change-transform {
-  will-change: transform, opacity, filter, width;
+  will-change: transform;
 }
 
 /* Add motion blur support */

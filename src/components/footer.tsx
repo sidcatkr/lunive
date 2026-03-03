@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import Link from "next/link";
 import Image from "next/image";
 import { Github, Twitter, Linkedin } from "lucide-react";
@@ -68,17 +65,15 @@ export default function Footer() {
               { icon: Twitter, href: "https://x.com/lunivehq" },
               { icon: Linkedin, href: "https://linkedin.com" },
             ].map((social, index) => (
-              <motion.a
+              <a
                 key={index}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-white transition-colors"
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.9 }}
+                className="text-gray-500 hover:text-white transition-all duration-200 hover:scale-110 hover:-translate-y-0.5 active:scale-90 inline-block"
               >
                 <social.icon size={20} />
-              </motion.a>
+              </a>
             ))}
           </div>
 

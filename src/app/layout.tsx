@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
-import ClientOnly from "@/components/ClientOnly";
 import CustomCursor from "@/components/CustomCursor";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
@@ -54,9 +53,7 @@ if(window.location.pathname.startsWith('/stories')){
         />
       </head>
       <body className={inter.className}>
-        <ClientOnly>
-          <CustomCursor />
-        </ClientOnly>
+        <CustomCursor />
         <Navbar />
         {children}
         <Footer />

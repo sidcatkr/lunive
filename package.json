@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@types/mdast": "^4.0.4",
-    "framer-motion": "^10.18.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.294.0",
     "motion": "^12.9.4",

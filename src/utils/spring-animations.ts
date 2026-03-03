@@ -1,31 +1,28 @@
-'use client'
+import { animate, type AnimationOptions } from "motion";
 
-import { animate, type AnimationOptions, type MotionValue } from "motion"
-import { useSpring } from "motion/react"
-
-type SpringConfigKey = "light" | "medium" | "heavy" | "smooth"
+type SpringConfigKey = "light" | "medium" | "heavy" | "smooth";
 
 interface SpringConfigs {
   light: {
-    stiffness: number
-    damping: number
-    mass: number
-  }
+    stiffness: number;
+    damping: number;
+    mass: number;
+  };
   medium: {
-    stiffness: number
-    damping: number
-    mass: number
-  }
+    stiffness: number;
+    damping: number;
+    mass: number;
+  };
   heavy: {
-    stiffness: number
-    damping: number
-    mass: number
-  }
+    stiffness: number;
+    damping: number;
+    mass: number;
+  };
   smooth: {
-    stiffness: number
-    damping: number
-    mass: number
-  }
+    stiffness: number;
+    damping: number;
+    mass: number;
+  };
 }
 
 export const springConfig: SpringConfigs = {
@@ -49,11 +46,7 @@ export const springConfig: SpringConfigs = {
     damping: 20,
     mass: 1.2,
   },
-}
-
-export function useSpringValue(value: MotionValue<number>, config: SpringConfigKey = "medium") {
-  return useSpring(value, springConfig[config])
-}
+};
 
 export function animateWithSpring(
   element: Element | Element[],
@@ -65,5 +58,5 @@ export function animateWithSpring(
     stiffness: 100,
     damping: 15,
     ...options,
-  })
+  });
 }

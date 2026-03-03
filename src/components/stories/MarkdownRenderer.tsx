@@ -30,6 +30,10 @@ import type { Components } from "react-markdown";
 import type { Element, ElementContent } from "hast";
 import { slugify } from "@/lib/slugify";
 
+// Module-level constants to avoid recreating arrays on every render
+const REMARK_PLUGINS = [remarkGfm];
+const REHYPE_PLUGINS = [rehypeRaw];
+
 // ─── Utility ─────────────────────────────────────────────────────────────────
 
 /** Recursively extract plain text from React children (for heading ID generation). */
@@ -273,8 +277,8 @@ interface MarkdownRendererProps {
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw]}
+      remarkPlugins={REMARK_PLUGINS}
+      rehypePlugins={REHYPE_PLUGINS}
       components={components}
     >
       {content}
