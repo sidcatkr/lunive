@@ -123,18 +123,24 @@ export default function ExpandOnScroll({
   // triggers layout. Content inside scales with the card, which matches the
   // Anthropic glasswing effect where the title grows alongside the card.
   //
-  // --sx0 and --sy0 are the initial scales (final size → initial size ratio).
-  // --expand drives the interpolation from initial scale → 1.
+  // --sx0 and --sy0 are the raw per-axis initial scales (final→initial ratio).
+  // --s0 collapses them to a single uniform factor via max() so the card never
+  // stretches non-uniformly — critical on mobile where the viewport aspect
+  // (~0.5) diverges sharply from the authored initial aspect (~0.65), which
+  // would otherwise squeeze content by ~30%. Using max() preserves the
+  // authored width (92vw on mobile) exactly; the card just grows slightly
+  // taller than the authored height rather than narrower than the authored
+  // width, which reads better on phones.
   const motionStyle = {
     "--expand": expand,
     "--sx0": `calc(${initialWidth} / 100vw)`,
     "--sy0": `calc(${initialHeight} / (100vh - ${stickyOffset}))`,
+    "--s0": "max(var(--sx0), var(--sy0))",
     width: "100vw",
     height: `calc(100vh - ${stickyOffset})`,
     transform:
       "translateZ(0) " +
-      "scaleX(calc(var(--sx0) + (1 - var(--sx0)) * var(--expand))) " +
-      "scaleY(calc(var(--sy0) + (1 - var(--sy0)) * var(--expand)))",
+      "scale(calc(var(--s0) + (1 - var(--s0)) * var(--expand)))",
     transformOrigin: "center center",
     borderRadius: `calc(${initialRadius} * (1 - var(--expand)))`,
     willChange: "transform, border-radius",

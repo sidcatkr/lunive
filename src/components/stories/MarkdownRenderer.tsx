@@ -147,7 +147,42 @@ const components: Components = {
   },
 
   // ── Links ─────────────────────────────────────────────────────────────────
-  a: ({ href, children }) => {
+  a: ({ href, children, node }) => {
+    const hNode = node as Element;
+    const classes = (hNode?.properties?.className ?? []) as string[];
+    const isBackref =
+      classes.includes("data-footnote-backref") ||
+      (href?.startsWith("#user-content-fnref-") ?? false);
+
+    if (isBackref) {
+      // remark-gfm injects a ↩ character that iOS renders as an emoji.
+      // Swap the content for an inline SVG so it's consistent across platforms.
+      const ariaLabel = (hNode?.properties?.ariaLabel as string | undefined) ??
+        "Back to reference";
+      return (
+        <a
+          href={href}
+          aria-label={ariaLabel}
+          className="inline-flex items-center text-[var(--essay-accent)] no-underline hover:opacity-70 transition-opacity duration-150 ml-1"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <polyline points="9 14 4 9 9 4" />
+            <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
+          </svg>
+        </a>
+      );
+    }
+
     const isExternal = href?.startsWith("http");
     return (
       <a
