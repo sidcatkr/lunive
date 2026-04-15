@@ -13,6 +13,19 @@ export interface TocItem {
   level: 2 | 3;
 }
 
+export interface HeroMedia {
+  /** Media kind rendered in the hero card / expand slot. */
+  type: "image" | "video" | "component";
+  /** URL for image/video. */
+  src?: string;
+  /** Optional poster frame for videos. */
+  poster?: string;
+  /** Name of a component registered in hero-components.tsx (for type: "component"). */
+  component?: string;
+  /** Alt text for images; accessible label for videos/components. */
+  alt?: string;
+}
+
 export interface StoryMeta {
   slug: string;
   title: string;
@@ -20,6 +33,18 @@ export interface StoryMeta {
   description?: string;
   tags?: string[];
   coverImage?: string;
+  /** When true, this story renders as the large featured card on /stories. */
+  featured?: boolean;
+  /**
+   * When true (default) and heroMedia is set, the featured card on /stories
+   * grows to fill the viewport as the user scrolls. Set false for a static
+   * dark card that doesn't animate.
+   */
+  expand?: boolean;
+  /** Hero visual shown in the article/index card. */
+  heroMedia?: HeroMedia;
+  /** Optional subtitle line under the hero title (used on the dark card). */
+  subtitle?: string;
 }
 
 export interface Story extends StoryMeta {
@@ -60,6 +85,10 @@ function parseStory(filename: string): StoryMeta {
     description: data.description,
     tags: data.tags,
     coverImage: data.coverImage,
+    featured: data.featured === true,
+    expand: data.expand !== false,
+    heroMedia: data.heroMedia as HeroMedia | undefined,
+    subtitle: data.subtitle,
   };
 }
 
@@ -96,9 +125,23 @@ export function getStoryBySlug(slug: string): Story | null {
     description: data.description,
     tags: data.tags,
     coverImage: data.coverImage,
+    featured: data.featured === true,
+    expand: data.expand !== false,
+    heroMedia: data.heroMedia as HeroMedia | undefined,
+    subtitle: data.subtitle,
     content,
     toc: extractToc(content),
   };
+}
+
+/**
+ * Returns the story that should lead the /stories index.
+ * Prefers `featured: true`; falls back to the newest story.
+ */
+export function getFeaturedStory(): StoryMeta | null {
+  const all = getAllStories();
+  if (all.length === 0) return null;
+  return all.find((s) => s.featured) ?? all[0];
 }
 
 /**

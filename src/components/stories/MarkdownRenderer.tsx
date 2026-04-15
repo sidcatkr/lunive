@@ -29,6 +29,7 @@ import Image from "next/image";
 import type { Components } from "react-markdown";
 import type { Element, ElementContent } from "hast";
 import { slugify } from "@/lib/slugify";
+import ExpandMedia from "./ExpandMedia";
 
 // Module-level constants to avoid recreating arrays on every render
 const REMARK_PLUGINS = [remarkGfm];
@@ -86,15 +87,18 @@ const components: Components = {
     </h4>
   ),
 
-  // ── Paragraph (unwrap standalone images) ──────────────────────────────────
+  // ── Paragraph (unwrap standalone block-ish children) ──────────────────────
+  // react-markdown wraps inline HTML in <p>. For tags that render block-level
+  // content (figure, div, etc.), nesting them inside <p> produces invalid HTML
+  // and triggers a hydration error. Strip the <p> when it holds just one of
+  // these as its sole child.
   p: ({ children, node }) => {
     const hNode = node as Element;
-    // If the only child is an <img>, skip the wrapping <p> (ImageBlock handles the figure)
-    if (
-      hNode?.children?.length === 1 &&
-      hNode.children[0].type === "element" &&
-      (hNode.children[0] as Element).tagName === "img"
-    ) {
+    const onlyChild =
+      hNode?.children?.length === 1 && hNode.children[0].type === "element"
+        ? (hNode.children[0] as Element).tagName
+        : null;
+    if (onlyChild === "img" || onlyChild === "expand-media") {
       return <>{children}</>;
     }
     return (
@@ -268,6 +272,51 @@ const components: Components = {
   },
 };
 
+// Custom tags (not part of the standard `Components` type, so attached separately).
+// Authors write: <expand-media type="video" src="/stories/demo.mp4"></expand-media>
+const customComponents = {
+  "expand-media": ({
+    type,
+    src,
+    poster,
+    component,
+    alt,
+    contained,
+  }: {
+    type?: "image" | "video" | "component";
+    src?: string;
+    poster?: string;
+    component?: string;
+    alt?: string;
+    /** Set to any string (e.g. "true") to render a static card instead of a scroll-expand block. */
+    contained?: string | boolean;
+  }) => {
+    const isContained = contained === true || contained === "true" || contained === "";
+    // Break out of the max-width reading column so the expand can span the
+    // full viewport width (Anthropic-style). `width: 100vw` + negative margin
+    // re-centers the block regardless of parent width. body has overflow-x:
+    // hidden in stories globals, so no horizontal scrollbar.
+    return (
+      <div
+        className="relative my-20"
+        style={{
+          width: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+        }}
+      >
+        <ExpandMedia
+          type={type}
+          src={src}
+          poster={poster}
+          component={component}
+          alt={alt}
+          contained={isContained}
+        />
+      </div>
+    );
+  },
+};
+
 // ─── Renderer ────────────────────────────────────────────────────────────────
 
 interface MarkdownRendererProps {
@@ -279,7 +328,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     <ReactMarkdown
       remarkPlugins={REMARK_PLUGINS}
       rehypePlugins={REHYPE_PLUGINS}
-      components={components}
+      components={{ ...components, ...customComponents } as Components}
     >
       {content}
     </ReactMarkdown>

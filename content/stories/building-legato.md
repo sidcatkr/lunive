@@ -2,7 +2,13 @@
 title: "Building Legato"
 date: "2026-03-03"
 description: "How we built Legato — a Discord music bot that moves control out of chat commands and into a purpose-built web UI for queue management, search, lyrics, and volume."
+subtitle: "Moving music control out of the chat and into a real interface."
 tags: ["legato", "discord", "music", "product"]
+featured: true
+heroMedia:
+  type: image
+  src: https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1600&q=80
+  alt: Headphones resting on a wooden desk
 ---
 
 Most Discord bots ask you to live inside a text box. Want to play a song? Type a command. Want to skip it? Type another. Want to see what's coming up in the queue? Hope you remember, because there is no good way to look.

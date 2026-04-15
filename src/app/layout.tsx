@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
-import CustomCursor from "@/components/CustomCursor";
+// import CustomCursor from "@/components/CustomCursor";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 
@@ -53,7 +53,7 @@ if(window.location.pathname.startsWith('/stories')){
         />
       </head>
       <body className={inter.className}>
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         <Navbar />
         {children}
         <Footer />

@@ -1,27 +1,100 @@
 ---
+# ──────────────────────────────────────────────────────────────────
+# REQUIRED
+# ──────────────────────────────────────────────────────────────────
 title: ""
-date: ""
-description: ""
-tags: []
+date: ""                  # ISO, e.g. "2026-04-15"
+
+# ──────────────────────────────────────────────────────────────────
+# OPTIONAL metadata
+# ──────────────────────────────────────────────────────────────────
+description: ""           # Short blurb shown on the index and in <meta>
+tags: []                  # e.g. ["legato", "discord", "product"]
+subtitle: ""              # One-line below the title on the hero card
+
+# ──────────────────────────────────────────────────────────────────
+# FEATURED STORY  (choose ONE story per list to lead the /stories page)
+# ──────────────────────────────────────────────────────────────────
+# featured: true         # promotes this story to the big hero card on /stories
+# expand: true           # default. Set to false for a static hero card (no scroll takeover)
+
+# ──────────────────────────────────────────────────────────────────
+# HERO MEDIA  (the visual on the right side of the dark hero card)
+# ──────────────────────────────────────────────────────────────────
+# Three `type` options — pick one:
+#
+#   1. image   — still image (URL or /public path)
+#   2. video   — looping muted autoplay video (mp4/webm)
+#   3. component — a React component registered in
+#                  src/components/stories/hero-components.tsx
+#
+# heroMedia:
+#   type: image
+#   src: https://images.unsplash.com/photo-...?w=1600&q=80
+#   alt: "Description of the image"
+#
+# heroMedia:
+#   type: video
+#   src: /stories/demo.mp4
+#   poster: /stories/demo.jpg   # optional fallback frame
+#   alt: "Demo video of the product"
+#
+# heroMedia:
+#   type: component
+#   component: legato-visual    # key must exist in HERO_COMPONENTS
+#   alt: "Interactive Legato visualization"
 ---
 
-<!-- Introduction: Set the stage for the essay. 2–3 paragraphs. -->
+<!-- ============================================================
+     BODY — standard markdown. All Obsidian/VSCode features work:
+       - Headings, bold, italic, strikethrough, blockquotes
+       - Lists (ordered / unordered), tables (GFM)
+       - Links, footnotes[^1], fenced code blocks
+       - Inline images: ![alt](url "caption")
+============================================================ -->
 
-<!-- Optional: Lead image -->
+## Introduction
+
+<!-- Set the stage for the essay. 2–3 paragraphs. -->
+
+<!-- Optional: Inline image that sits in the reading column. -->
 <!-- ![Alt text](https://images.unsplash.com/photo-XXXX?w=800&q=80 "Caption text.") -->
 
 ## Section Title
 
 <!-- 2–4 paragraphs per section. Use footnotes[^1] for asides. -->
 
-## Section Title
+<!-- ============================================================
+     SCROLL-EXPAND MEDIA  (the "fills-the-viewport as you scroll" block)
 
-<!-- Optional: Inline image -->
-<!-- ![Alt text](https://images.unsplash.com/photo-XXXX?w=800&q=80 "Caption text.") -->
+     Write the tag inline in markdown anywhere in the body. Required:
+       type  — "image" | "video" | "component"
+       src   — URL or /public path (image/video)
+       component — key in HERO_COMPONENTS (when type="component")
+
+     Optional:
+       poster    — video poster frame
+       alt       — accessible label
+       contained — "true" to render a static card instead of scroll-expand
+
+     Examples (uncomment to use):
+============================================================ -->
+
+<!-- Expanding video mid-article (the one that grows to fit the viewport): -->
+<!-- <expand-media type="video" src="/stories/demo.mp4" poster="/stories/demo.jpg" alt="Product demo"></expand-media> -->
+
+<!-- Expanding image: -->
+<!-- <expand-media type="image" src="https://images.unsplash.com/photo-XXXX?w=2000&q=90" alt="Description"></expand-media> -->
+
+<!-- Static (no scroll takeover) card, e.g. a diagram you don't want to pin: -->
+<!-- <expand-media type="image" src="/stories/diagram.png" alt="Architecture diagram" contained="true"></expand-media> -->
+
+<!-- Custom React component (register it in src/components/stories/hero-components.tsx first): -->
+<!-- <expand-media type="component" component="legato-visual" alt="Interactive visual"></expand-media> -->
 
 ## Section Title
 
 ## Conclusion
 
-<!-- Footnotes -->
+<!-- Footnotes live at the very end. -->
 <!-- [^1]: Footnote text here. -->

@@ -25,11 +25,11 @@ export default function ArticleHeader({
     : "";
 
   return (
-    <header className="mb-12">
+    <header className="mb-14">
       {backLink && (
         <Link
           href={backLink.href}
-          className="inline-flex items-center gap-2 text-[var(--essay-muted)] hover:text-[var(--essay-text)] transition-colors mb-8 text-sm"
+          className="inline-flex items-center gap-2 text-[var(--essay-muted)] hover:text-[var(--essay-text)] transition-colors mb-10 text-sm font-[family-name:var(--font-inter)]"
         >
           <svg
             width="16"
@@ -50,25 +50,28 @@ export default function ArticleHeader({
         </Link>
       )}
 
-      <h1 className="font-[family-name:var(--font-newsreader)] text-4xl md:text-5xl font-medium tracking-tight mb-4">
+      <h1 className="font-[family-name:var(--font-newsreader)] font-medium tracking-tight leading-[1.05] text-[clamp(2.25rem,4.8vw,4rem)] mb-6 text-[var(--essay-text)]">
         {title}
       </h1>
 
-      <div className="flex flex-wrap items-center gap-2 mb-8">
-        {formatted && (
-          <p className="text-[var(--essay-muted)] text-sm">{formatted}</p>
-        )}
+      <div className="flex flex-wrap items-center gap-3 mb-10 text-sm text-[var(--essay-muted)] font-[family-name:var(--font-inter)]">
+        {formatted && <time dateTime={date}>{formatted}</time>}
         {tags && tags.length > 0 && (
-          <div className="flex gap-2 flex-wrap">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2 py-0.5 rounded-full border border-[var(--essay-border)] text-[var(--essay-muted)]"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          <>
+            <span aria-hidden="true" className="opacity-50">
+              ·
+            </span>
+            <div className="flex gap-2 flex-wrap">
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-[11px] px-2 py-0.5 rounded-full border border-[var(--essay-border)] uppercase tracking-wider"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </>
         )}
       </div>
 

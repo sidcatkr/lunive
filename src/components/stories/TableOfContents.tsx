@@ -48,26 +48,41 @@ export default function TableOfContents({ items }: TableOfContentsProps) {
   if (items.length === 0) return null;
 
   return (
-    <nav className="hidden lg:block fixed left-8 top-1/2 -translate-y-1/2 z-50">
-      <ul className="space-y-3">
-        {items.map((item) => (
-          <li
-            key={item.id}
-            style={{ paddingLeft: item.level === 3 ? "0.75rem" : 0 }}
-          >
-            <a
-              href={`#${item.id}`}
-              onClick={(e) => handleClick(e, item.id)}
-              className={`block text-[13px] transition-all duration-300 max-w-[180px] leading-snug ${
-                activeId === item.id
-                  ? "text-[var(--essay-text)] font-medium"
-                  : "text-[var(--essay-muted)] hover:text-[var(--essay-text)]"
-              }`}
+    <nav
+      data-toc
+      className="hidden xl:block fixed left-10 top-1/2 -translate-y-1/2 z-40 font-[family-name:var(--font-inter)] transition-opacity duration-300"
+    >
+      <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--essay-muted)] mb-4">
+        Contents
+      </p>
+      <ul className="space-y-2.5 border-l border-[var(--essay-border)] pl-4">
+        {items.map((item) => {
+          const isActive = activeId === item.id;
+          return (
+            <li
+              key={item.id}
+              style={{ paddingLeft: item.level === 3 ? "0.75rem" : 0 }}
             >
-              {item.title}
-            </a>
-          </li>
-        ))}
+              <a
+                href={`#${item.id}`}
+                onClick={(e) => handleClick(e, item.id)}
+                className={`group relative block text-[13px] leading-snug max-w-[200px] transition-colors duration-200 ${
+                  isActive
+                    ? "text-[var(--essay-text)] font-medium"
+                    : "text-[var(--essay-muted)] hover:text-[var(--essay-text)]"
+                }`}
+              >
+                {isActive && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute -left-[17px] top-[7px] w-[3px] h-4 bg-[var(--essay-text)] rounded-full"
+                  />
+                )}
+                {item.title}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
