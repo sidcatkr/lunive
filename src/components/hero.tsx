@@ -11,22 +11,28 @@ export default function Hero() {
 
   useEffect(() => {
     if (containerRef.current) {
-      // Respect prefers-reduced-motion: skip animation, just show content.
+      // Respect prefers-reduced-motion: skip the entry animation entirely.
+      // The text is already visible from SSR, so this is a true no-op.
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      if (prefersReducedMotion) {
-        containerRef.current.style.visibility = "visible";
-        return;
-      }
-      // Wait for fonts to load
+      if (prefersReducedMotion) return;
+
+      // Wait for fonts to load before splitting characters — splitText reads
+      // the rendered glyph widths, and Korean/Inter fallback metrics differ
+      // enough that splitting before fonts settle leaves the layout subtly
+      // off. Important: we no longer flip `visibility` here. The text renders
+      // visible from SSR (good for LCP attribution + crawler indexing); the
+      // entry animation only nudges `y` and `filter`, which are pure
+      // transforms and therefore don't gate the LCP "rendered" timestamp.
       document.fonts.ready.then(() => {
         if (!containerRef.current) return;
 
-        // Make container visible
-        containerRef.current.style.visibility = "visible";
-
-        // Split and animate first line
+        // Split and animate first line. Skip `opacity` in the keyframes so
+        // characters never go transparent — Chrome attributes LCP only once
+        // the element is painted with non-zero opacity, so animating
+        // opacity from 0 was the entire reason desktop /ko had a 2.6s LCP
+        // render-delay even though TTFB was 14ms.
         const firstLine = containerRef.current.querySelector(".first-line");
         if (firstLine) {
           const chars = splitText(firstLine, {
@@ -37,9 +43,8 @@ export default function Hero() {
           animateWithSpring(
             chars,
             {
-              opacity: [0, 1],
-              y: [20, 0],
-              filter: ["blur(8px)", "blur(0px)"],
+              y: [16, 0],
+              filter: ["blur(6px)", "blur(0px)"],
             },
             {
               stiffness: 60, // Lower stiffness for smoother animation
@@ -47,8 +52,8 @@ export default function Hero() {
               bounce: 0,
               restSpeed: 0.01,
               restDelta: 0.01,
-              delay: stagger(0.06), // Stagger each character
-              duration: 1.8, // Longer duration for smoother animation
+              delay: stagger(0.04), // Slightly tighter stagger
+              duration: 1.2, // Shorter — full reveal completes quicker
             },
           );
         }
@@ -100,10 +105,15 @@ export default function Hero() {
         />
       </motion.div>
 
+      {/* Text is rendered visible from SSR — important for LCP attribution
+          (Chrome counts the H1 as "rendered" only once it's painted with
+          non-zero opacity), and for crawlers / reduced-motion users that
+          never run the entry animation. The character-by-character reveal
+          (handled in the useEffect above) animates only `y` and `filter`,
+          neither of which gate LCP. */}
       <div
         ref={containerRef}
         className="hero-text-container text-center max-w-3xl"
-        style={{ visibility: "hidden" }}
       >
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
           <span className="first-line blur-transition">
