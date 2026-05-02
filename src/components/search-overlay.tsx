@@ -204,9 +204,18 @@ export default function SearchOverlay({
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={onInputKeyDown}
                     placeholder="Search pages, stories…"
-                    className="flex-1 min-w-0 bg-transparent text-[var(--essay-text)] placeholder:text-[var(--essay-muted)] placeholder:opacity-60 text-[15px] outline-none"
+                    // 16px on mobile to prevent iOS Safari's auto-zoom on
+                    // focus (any input < 16px triggers a viewport zoom +
+                    // forces the user to pinch back). Tablet/desktop drop
+                    // back to 15px to match the rest of the overlay's type
+                    // scale. Disable autocorrect/capitalize for a cleaner
+                    // search experience.
+                    className="flex-1 min-w-0 bg-transparent text-[var(--essay-text)] placeholder:text-[var(--essay-muted)] placeholder:opacity-60 text-[16px] sm:text-[15px] outline-none"
                     autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
                     spellCheck={false}
+                    enterKeyHint="search"
                   />
                   {query ? (
                     <button

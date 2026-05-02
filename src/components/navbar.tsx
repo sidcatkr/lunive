@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useTransition } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "motion/react";
@@ -33,6 +34,9 @@ export default function Navbar({
 }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Defer portal until after mount so SSR doesn't try to access `document`.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -67,6 +71,21 @@ export default function Navbar({
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  // Lock body scroll while the mobile menu is open. Without this the user
+  // can flick the page underneath, the URL bar collapses, and on iOS the
+  // viewport reflow combined with the navbar's `backdrop-filter` (which
+  // turns the navbar into the fixed-positioning containing block for any
+  // descendants) used to collapse the menu's resolved height. Locking
+  // scroll keeps the viewport quiet while the menu is up.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobileMenuOpen]);
 
   // Publish the live navbar height to a CSS variable so the mobile menu
   // panel can pin its top edge exactly to the navbar's bottom border —
@@ -110,6 +129,7 @@ export default function Navbar({
   };
 
   return (
+    <>
     <header
       ref={headerRef}
       suppressHydrationWarning
@@ -188,39 +208,64 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Mobile Menu — fills the viewport from just below the navbar header
-          down to the bottom edge. We use `position: fixed` (not absolute)
-          with `top` set to the live navbar height so the panel butts up
-          flush against the navbar's bottom border with no gap, and
-          `bottom: 0` so the panel always reaches the bottom of the screen,
-          regardless of how few links are inside. */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            className="md:hidden fixed left-0 right-0 origin-top overflow-hidden backdrop-blur-xl"
-            style={{
-              top: "var(--navbar-h, 56px)",
-              bottom: 0,
-              backgroundColor: "var(--essay-bg)",
-            }}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ type: "spring", ...springConfig.medium }}
-          >
+    </header>
+
+    {/* Mobile Menu — rendered via portal at document.body so the navbar's
+        own `backdrop-filter` (which becomes the containing block for any
+        nested `position: fixed` descendant per CSS spec) can't collapse the
+        menu's resolved geometry to zero height once the user scrolls and
+        the navbar's blur class flips on. The portal puts the menu as a
+        sibling of the app root, where the only containing block is the
+        viewport itself. */}
+    {mounted &&
+      createPortal(
+        <AnimatePresence>
+          {mobileMenuOpen && (
             <motion.div
-              className="container mx-auto px-4 pt-4 pb-6 flex flex-col gap-1 h-full"
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={{
-                open: { transition: { staggerChildren: 0.04, delayChildren: 0.06 } },
-                closed: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
+              className="md:hidden fixed left-0 right-0 origin-top overflow-hidden z-[60]"
+              style={{
+                top: "var(--navbar-h, 56px)",
+                bottom: 0,
+                backgroundColor: "var(--essay-bg)",
               }}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ type: "spring", ...springConfig.medium }}
             >
-              {NAV_LINKS.map((link) => (
+              <motion.div
+                className="container mx-auto px-4 pt-4 pb-6 flex flex-col gap-1 h-full"
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={{
+                  open: { transition: { staggerChildren: 0.04, delayChildren: 0.06 } },
+                  closed: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
+                }}
+              >
+                {NAV_LINKS.map((link) => (
+                  <motion.div
+                    key={link.href}
+                    variants={{
+                      open: {
+                        opacity: 1,
+                        y: 0,
+                        transition: { type: "spring", stiffness: 380, damping: 30 },
+                      },
+                      closed: { opacity: 0, y: -8, transition: { duration: 0.12 } },
+                    }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="block py-2 text-base font-medium text-[var(--essay-text)] hover:opacity-70 transition-opacity"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {optimisticLocale === "ko" ? link.ko : link.en}
+                    </Link>
+                  </motion.div>
+                ))}
                 <motion.div
-                  key={link.href}
+                  className="mt-auto pt-4 border-t border-[var(--essay-border)]"
                   variants={{
                     open: {
                       opacity: 1,
@@ -230,33 +275,15 @@ export default function Navbar({
                     closed: { opacity: 0, y: -8, transition: { duration: 0.12 } },
                   }}
                 >
-                  <Link
-                    href={link.href}
-                    className="block py-2 text-base font-medium text-[var(--essay-text)] hover:opacity-70 transition-opacity"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {optimisticLocale === "ko" ? link.ko : link.en}
-                  </Link>
+                  <SearchOverlay storyItems={storyItems} variant="mobile" isMac={isMac} />
                 </motion.div>
-              ))}
-              <motion.div
-                className="mt-auto pt-4 border-t border-[var(--essay-border)]"
-                variants={{
-                  open: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { type: "spring", stiffness: 380, damping: 30 },
-                  },
-                  closed: { opacity: 0, y: -8, transition: { duration: 0.12 } },
-                }}
-              >
-                <SearchOverlay storyItems={storyItems} variant="mobile" isMac={isMac} />
               </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
+    </>
   );
 }
 
