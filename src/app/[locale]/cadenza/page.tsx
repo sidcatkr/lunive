@@ -92,7 +92,7 @@ function buildContent(locale: Locale): Content {
           <p>
             Cadenza는{" "}
             <Link href="/about" locale="ko">
-              루나이브
+              Lunive
             </Link>
             의 첫 번째 제품입니다. 시작은 단순한 불편함이었습니다 — 채팅 명령어로 음악을 다루는 건 경험이 아니라 우회로입니다. 슬래시 명령어는 세션을 시작하는 방식이고, 대시보드는 실제로 머무는 곳입니다.
           </p>
@@ -188,7 +188,7 @@ export async function generateMetadata({
       : "Cadenza — Discord music with a real interface";
   const description =
     locale === "ko"
-      ? "Cadenza는 채팅 명령어 대신 비공개 웹 대시보드에서 검색·큐·가사·재생을 한눈에 다루는 디스코드 음악 봇입니다. 루나이브의 첫 번째 제품."
+      ? "Cadenza는 채팅 명령어 대신 비공개 웹 대시보드에서 검색·큐·가사·재생을 한눈에 다루는 디스코드 음악 봇입니다. Lunive의 첫 번째 제품."
       : "Cadenza is a Discord music bot with a private web dashboard for search, queue, lyrics, and playback — all visible at once. Lunive's first product.";
 
   return {

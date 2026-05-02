@@ -53,10 +53,16 @@ export const LOCALIZED_DEFAULTS: Record<
     ],
   },
   ko: {
-    title: "루나이브 — 사용자 경험을 우선하는 소프트웨어 브랜드",
-    template: "%s · 루나이브",
+    // Brand displays as "Lunive" in Korean copy too — the brand's official
+    // name is the Latin spelling, and Korean web convention keeps brand
+    // names in English (Apple, Discord, etc). The Hangul reading "루나이브"
+    // is preserved in `BRAND.altName` (schema.org `alternateName`) and the
+    // `keywords` array below so Naver / Google still match users typing
+    // the Korean spelling — but the visible brand string is always Lunive.
+    title: "Lunive — 사용자 경험을 우선하는 소프트웨어 브랜드",
+    template: "%s · Lunive",
     description:
-      "루나이브(Lunive)는 사용자를 존중하는 도구를 만드는 1인 소프트웨어 브랜드입니다. 첫 번째 제품 Cadenza는 진짜 인터페이스를 갖춘 디스코드 음악 봇입니다.",
+      "Lunive는 사용자를 존중하는 도구를 만드는 1인 소프트웨어 브랜드입니다. 첫 번째 제품 Cadenza는 진짜 인터페이스를 갖춘 디스코드 음악 봇입니다.",
     ogLocale: "ko_KR",
     keywords: [
       "Lunive",

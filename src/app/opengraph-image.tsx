@@ -73,7 +73,7 @@ export default async function OpengraphImage() {
               fontWeight: 400,
             }}
           >
-            루나이브 — lunive.app
+            Lunive — lunive.app
           </div>
         </div>
       </div>

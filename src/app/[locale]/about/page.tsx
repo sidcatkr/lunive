@@ -36,14 +36,14 @@ function buildContent(locale: Locale): Content {
           <span className="anthropic-underline">소프트웨어</span>.
         </>
       ),
-      sub: "루나이브(Lunive)는 사용자를 존중하는 도구를 만드는 1인 소프트웨어 브랜드입니다.",
+      sub: "Lunive는 사용자를 존중하는 도구를 만드는 1인 소프트웨어 브랜드입니다.",
       ctaCadenza: "Cadenza 보기",
       ctaStories: "스토리 읽기",
       body: (
         <>
-          <h2>루나이브에 대해</h2>
+          <h2>Lunive에 대해</h2>
           <p>
-            루나이브(Lunive)는 1인 소프트웨어 브랜드입니다. 이 이름으로 나오는 모든 것은 한 사람이 직접 디자인하고, 만들고, 운영합니다. 사용자를 존중하는 도구를 만드는 것이 이 브랜드의 존재 이유입니다. 똑똑해 보이는 화면보다 명료한 화면을, 기능을 모으는 방식보다 함께 지내기 편한 방식을 우선합니다.
+            Lunive는 1인 소프트웨어 브랜드입니다. 이 이름으로 나오는 모든 것은 한 사람이 직접 디자인하고, 만들고, 운영합니다. 사용자를 존중하는 도구를 만드는 것이 이 브랜드의 존재 이유입니다. 똑똑해 보이는 화면보다 명료한 화면을, 기능을 모으는 방식보다 함께 지내기 편한 방식을 우선합니다.
           </p>
 
           <h2>왜 1인인지</h2>
@@ -178,10 +178,10 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const title = locale === "ko" ? "루나이브 소개" : "About Lunive";
+  const title = locale === "ko" ? "Lunive 소개" : "About Lunive";
   const description =
     locale === "ko"
-      ? "루나이브는 사용자 경험을 우선하는 1인 소프트웨어 브랜드입니다. 1인 운영, 상표, 첫 제품 Cadenza에 대해 소개합니다."
+      ? "Lunive는 사용자 경험을 우선하는 1인 소프트웨어 브랜드입니다. 1인 운영, 상표, 첫 제품 Cadenza에 대해 소개합니다."
       : "Lunive is a one-person software brand focused on user experience. About the founder, the trademark, and the first product Cadenza.";
   return {
     title,
@@ -211,7 +211,7 @@ export default async function AboutPage({
   const aboutLd = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    name: locale === "ko" ? "루나이브 소개" : "About Lunive",
+    name: locale === "ko" ? "Lunive 소개" : "About Lunive",
     inLanguage: locale,
     url: absoluteUrl("/about", locale),
     mainEntity: {

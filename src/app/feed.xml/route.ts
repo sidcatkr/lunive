@@ -43,7 +43,7 @@ export async function GET() {
 
   const channelTitle = `${BRAND.name} — Stories`;
   const channelDescription =
-    "Long-form essays, product notes, and observations from Lunive — a one-person software brand. 루나이브의 긴 글, 제품 노트, 관찰 기록.";
+    "Long-form essays, product notes, and observations from Lunive — a one-person software brand. Lunive의 긴 글, 제품 노트, 관찰 기록.";
 
   const items = sorted
     .map((s) => {

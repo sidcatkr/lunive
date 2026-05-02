@@ -135,7 +135,7 @@ export default async function StoriesIndexPage({
           </h1>
           <p className="text-[var(--essay-muted)] text-base md:text-[17px] leading-[1.6] max-w-md md:pb-3">
             {locale === "ko"
-              ? "루나이브 팀이 무엇을 어떻게 만들고 있는지에 관한 긴 글, 제품 노트, 관찰 기록."
+              ? "Lunive 팀이 무엇을 어떻게 만들고 있는지에 관한 긴 글, 제품 노트, 관찰 기록."
               : "Long-form essays, product notes, and observations from the team at Lunive."}
           </p>
         </div>

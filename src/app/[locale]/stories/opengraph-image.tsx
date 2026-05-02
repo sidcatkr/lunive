@@ -23,7 +23,7 @@ export default async function StoriesIndexOgImage({
     ? { a: "만드는 방식을 ", b: "바꾸는", c: " 글쓰기." }
     : { a: "Writing ", b: "that shapes", c: " how we build." };
   const sub = isKo
-    ? "긴 글, 제품 노트, 관찰 기록 — 루나이브 팀."
+    ? "긴 글, 제품 노트, 관찰 기록 — Lunive 팀."
     : "Long-form essays, product notes, observations.";
   return new ImageResponse(
     (

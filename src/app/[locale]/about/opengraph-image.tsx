@@ -21,7 +21,7 @@ export default async function AboutOgImage({
     ? "사용자를 중심에 두고 만드는 소프트웨어."
     : "Software designed around the people who use it.";
   const sub = isKo
-    ? "1인 소프트웨어 브랜드 — 루나이브"
+    ? "1인 소프트웨어 브랜드 — Lunive"
     : "A one-person software brand";
   return new ImageResponse(
     (
