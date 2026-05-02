@@ -112,6 +112,22 @@ const components: Components = {
   img: ({ src, alt, title }) => {
     if (!src) return null;
 
+    // Enforce alt text on every story image. Empty/whitespace-only alt is
+    // treated as a missing alt — markdown authors must either write a real
+    // description or explicitly use `alt=""` *with the figure caption (title)
+    // present* to mark it decorative. In dev/build we throw so the issue
+    // shows up in CI; in production we degrade silently to avoid blanking
+    // the page on a single missing alt.
+    const trimmedAlt = (alt ?? "").trim();
+    const hasCaption = Boolean(title?.trim());
+    if (!trimmedAlt && !hasCaption) {
+      const msg = `[MarkdownRenderer] Image is missing alt text and figure caption. src="${src}". Provide an alt description or a markdown title (caption).`;
+      if (process.env.NODE_ENV !== "production") {
+        throw new Error(msg);
+      }
+      console.warn(msg);
+    }
+
     // For external URLs use standard img tag (avoids next/image config issues)
     // For /public paths, use next/image
     const isExternal = src.startsWith("http://") || src.startsWith("https://");
@@ -123,14 +139,14 @@ const components: Components = {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={src}
-              alt={alt ?? ""}
+              alt={trimmedAlt}
               className="w-full h-auto"
               loading="lazy"
             />
           ) : (
             <Image
               src={src}
-              alt={alt ?? ""}
+              alt={trimmedAlt}
               width={800}
               height={500}
               className="w-full h-auto"

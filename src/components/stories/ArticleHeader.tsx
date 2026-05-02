@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 interface ArticleHeaderProps {
   title: string;
@@ -8,6 +8,8 @@ interface ArticleHeaderProps {
     href: string;
     label: string;
   };
+  /** Locale used for date formatting; the next-intl Link infers locale from URL. */
+  dateLocale?: string;
 }
 
 export default function ArticleHeader({
@@ -15,9 +17,10 @@ export default function ArticleHeader({
   date,
   tags,
   backLink,
+  dateLocale = "en-US",
 }: ArticleHeaderProps) {
   const formatted = date
-    ? new Date(date).toLocaleDateString("en-US", {
+    ? new Date(date).toLocaleDateString(dateLocale, {
         year: "numeric",
         month: "long",
         day: "numeric",

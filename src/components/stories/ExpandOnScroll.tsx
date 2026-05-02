@@ -32,9 +32,10 @@ interface ExpandOnScrollProps {
   /** Initial corner radius. Default "28px". */
   initialRadius?: string;
   /**
-   * Distance from viewport top reserved for a fixed navbar. The pinned card
-   * stays below this line so it never slips under the header. Default "5rem"
-   * to comfortably clear the 56px navbar plus its drop shadow.
+   * Distance from viewport top reserved for the fixed navbar. The pinned card
+   * pins immediately below this line so it touches the navbar's bottom border
+   * with no visible gap. Default reads `--navbar-h` (set live by the navbar
+   * via ResizeObserver) and falls back to 56px before the variable lands.
    */
   stickyOffset?: string;
   className?: string;
@@ -48,7 +49,7 @@ export default function ExpandOnScroll({
   initialWidth = "min(1100px, 92vw)",
   initialHeight = "min(620px, 78vh)",
   initialRadius = "28px",
-  stickyOffset = "5rem",
+  stickyOffset = "var(--navbar-h, 56px)",
   className = "",
   cardClassName = "",
 }: ExpandOnScrollProps) {
@@ -134,10 +135,10 @@ export default function ExpandOnScroll({
   const motionStyle = {
     "--expand": expand,
     "--sx0": `calc(${initialWidth} / 100vw)`,
-    "--sy0": `calc(${initialHeight} / (100vh - ${stickyOffset}))`,
+    "--sy0": `calc(${initialHeight} / (100dvh - ${stickyOffset}))`,
     "--s0": "max(var(--sx0), var(--sy0))",
     width: "100vw",
-    height: `calc(100vh - ${stickyOffset})`,
+    height: `calc(100dvh - ${stickyOffset})`,
     transform:
       "translateZ(0) " +
       "scale(calc(var(--s0) + (1 - var(--s0)) * var(--expand)))",
@@ -147,15 +148,35 @@ export default function ExpandOnScroll({
     backfaceVisibility: "hidden",
   } as CSSProperties;
 
+  // Break out of the body's content area (which is narrowed by
+  // `scrollbar-gutter: stable` reserving space on the right) AND any parent
+  // padding/centering. The section is forced to true viewport width.
+  //
+  // `calc(50% - 50vw)` on its own gives correct breakout from a centered
+  // padded parent, but on a layout where the parent is body-anchored at
+  // x=0 (no padding) it pulls the section LEFT by half the scrollbar
+  // gutter — leaving a thin gap on the right between the card and the
+  // viewport's actual right edge. Adding `var(--scrollbar-w) / 2` cancels
+  // that offset so the card always reaches viewport edge to viewport edge,
+  // independent of the scrollbar.
+  const breakout = "calc(50% - 50vw + var(--scrollbar-w, 0px) / 2)";
   return (
     <section
       ref={containerRef}
       className={`relative ${className}`}
-      style={{ height: pinHeight }}
+      style={{
+        height: pinHeight,
+        width: "100vw",
+        marginLeft: breakout,
+      }}
     >
       <div
-        className="sticky w-full flex items-center justify-center overflow-hidden"
-        style={{ top: stickyOffset, height: `calc(100vh - ${stickyOffset})` }}
+        className="sticky flex items-center justify-center overflow-hidden"
+        style={{
+          top: stickyOffset,
+          height: `calc(100dvh - ${stickyOffset})`,
+          width: "100vw",
+        }}
       >
         <motion.div
           className={`overflow-hidden ${cardClassName}`}

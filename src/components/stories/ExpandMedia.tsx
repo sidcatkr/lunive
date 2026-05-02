@@ -29,6 +29,12 @@ export interface ExpandMediaProps {
   initialHeight?: string;
   initialRadius?: string;
   pinHeight?: string;
+  /**
+   * When true, the underlying <Image> renders with next/image's `priority`
+   * (preload + high fetchpriority). Use only for above-the-fold hero LCP
+   * media — inline article media should stay lazy.
+   */
+  priority?: boolean;
 }
 
 function MediaInner({
@@ -37,7 +43,10 @@ function MediaInner({
   poster,
   component,
   alt,
-}: Pick<ExpandMediaProps, "type" | "src" | "poster" | "component" | "alt">) {
+  priority = false,
+}: Pick<ExpandMediaProps, "type" | "src" | "poster" | "component" | "alt"> & {
+  priority?: boolean;
+}) {
   if (type === "video" && src) {
     return (
       <video
@@ -80,7 +89,11 @@ function MediaInner({
         src={src}
         alt={alt ?? ""}
         className="w-full h-full object-cover"
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        // The fetchpriority attribute matches what next/image emits when
+        // `priority` is true — guides the browser to download the LCP image
+        // ahead of other resources.
+        fetchPriority={priority ? "high" : undefined}
       />
     );
   }
@@ -90,6 +103,10 @@ function MediaInner({
       alt={alt ?? ""}
       fill
       sizes="100vw"
+      // `priority` triggers next/image's preload + high fetchpriority hints
+      // — set true only for above-the-fold hero LCP images, never inline
+      // article media (would force eager loading of every media block).
+      priority={priority}
       className="object-cover"
     />
   );
@@ -108,6 +125,7 @@ export default function ExpandMedia({
   initialHeight,
   initialRadius,
   pinHeight,
+  priority = false,
 }: ExpandMediaProps) {
   if (contained) {
     // Render as a static card. When fillParent is true (HeroCard's visual pane
@@ -124,6 +142,7 @@ export default function ExpandMedia({
           poster={poster}
           component={component}
           alt={alt}
+          priority={priority}
         />
       </div>
     );
@@ -144,6 +163,7 @@ export default function ExpandMedia({
         poster={poster}
         component={component}
         alt={alt}
+        priority={priority}
       />
     </ExpandOnScroll>
   );

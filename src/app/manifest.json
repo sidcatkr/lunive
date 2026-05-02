@@ -1,6 +1,30 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "Lunive",
+  "short_name": "Lunive",
+  "description": "Lunive is a one-person software brand building tools designed around the people who use them. Cadenza is the first product — a Discord music bot with a real, polished web dashboard.",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "lang": "en",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "categories": ["productivity", "utilities", "music"],
   "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
@@ -14,7 +38,20 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#000000",
-  "background_color": "#000000",
-  "display": "standalone"
+  "shortcuts": [
+    {
+      "name": "Cadenza",
+      "short_name": "Cadenza",
+      "description": "Discord music with a real interface",
+      "url": "/en/cadenza",
+      "icons": [{ "src": "/web-app-manifest-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Stories",
+      "short_name": "Stories",
+      "description": "Long-form essays and product notes",
+      "url": "/en/stories",
+      "icons": [{ "src": "/web-app-manifest-192x192.png", "sizes": "192x192" }]
+    }
+  ]
 }

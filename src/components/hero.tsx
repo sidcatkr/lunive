@@ -11,6 +11,14 @@ export default function Hero() {
 
   useEffect(() => {
     if (containerRef.current) {
+      // Respect prefers-reduced-motion: skip animation, just show content.
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (prefersReducedMotion) {
+        containerRef.current.style.visibility = "visible";
+        return;
+      }
       // Wait for fonts to load
       document.fonts.ready.then(() => {
         if (!containerRef.current) return;
@@ -83,16 +91,18 @@ export default function Hero() {
         }}
       >
         <Image
-          src="/images/logo.svg"
+          src="/web-app-manifest-192x192.png"
           alt="Lunive Logo"
           fill
+          priority
+          sizes="64px"
           className="object-contain rounded-xl"
         />
       </motion.div>
 
       <div
         ref={containerRef}
-        className="text-center max-w-3xl"
+        className="hero-text-container text-center max-w-3xl"
         style={{ visibility: "hidden" }}
       >
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
@@ -102,13 +112,13 @@ export default function Hero() {
         </h1>
 
         <p className="text-xl md:text-2xl mt-4">
-          Be <span className="wavy text-yellow-300">flexible</span>.
+          Be <span className="wavy hero-accent-text">flexible</span>.
         </p>
       </div>
 
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <motion.div
-          className="absolute top-1/4 left-10 w-64 h-64 rounded-full bg-yellow-300/5 blur-xl will-change-transform"
+          className="hero-blob-soft absolute top-1/4 left-10 w-64 h-64 rounded-full blur-xl will-change-transform"
           animate={{
             x: [0, 30, 0],
             y: [0, -30, 0],
@@ -120,7 +130,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-10 w-80 h-80 rounded-full bg-yellow-300/10 blur-xl will-change-transform"
+          className="hero-blob-soft-strong absolute bottom-1/4 right-10 w-80 h-80 rounded-full blur-xl will-change-transform"
           animate={{
             x: [0, -40, 0],
             y: [0, 40, 0],

@@ -16,21 +16,27 @@ export function splitText(element: Element, options: SplitOptions = { type: "wor
       // Split the text into words first
       const words = text.split(/(\s+)/)
 
-      // Then split each word into characters
+      // Then split each word into characters, wrapping each word in a
+      // non-breaking inline-block so chars stay together on narrow viewports.
       words.forEach((word) => {
+        if (word.length === 0) return
         if (/^\s+$/.test(word)) {
           // This is a space/whitespace
           const space = document.createTextNode(word)
           element.appendChild(space)
         } else {
-          // This is a word, split into characters
+          // This is a word — wrap chars in a word group that won't break.
+          const wordSpan = document.createElement("span")
+          wordSpan.className = "split-word"
+          wordSpan.style.whiteSpace = "nowrap"
           word.split("").forEach((char) => {
             const span = document.createElement("span")
             span.className = "split-char"
             span.textContent = char
-            element.appendChild(span)
+            wordSpan.appendChild(span)
             chars.push(span)
           })
+          element.appendChild(wordSpan)
         }
       })
     } else {

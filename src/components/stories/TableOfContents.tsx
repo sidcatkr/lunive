@@ -7,7 +7,20 @@ interface TableOfContentsProps {
   items: TocItem[];
 }
 
-export default function TableOfContents({ items }: TableOfContentsProps) {
+export default function TableOfContents({ items: rawItems }: TableOfContentsProps) {
+  // Defensive: drop items without a usable id and dedupe by id so React never
+  // sees duplicate keys, even if a markdown heading slugifies to "".
+  const items = (() => {
+    const seen = new Set<string>();
+    const out: TocItem[] = [];
+    for (const item of rawItems) {
+      if (!item.id) continue;
+      if (seen.has(item.id)) continue;
+      seen.add(item.id);
+      out.push(item);
+    }
+    return out;
+  })();
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {

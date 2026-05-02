@@ -1,0 +1,50 @@
+{
+  "nav": {
+    "home": "Home",
+    "cadenza": "Cadenza",
+    "stories": "Stories",
+    "about": "About",
+    "legal": "Legal",
+    "search": "Search",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "languageEnglish": "EN",
+    "languageKorean": "한",
+    "switchLanguage": "Switch language"
+  },
+  "footer": {
+    "officialNoticeKicker": "Official Channel Notice",
+    "officialNoticeBody": "Lunive™ provides services exclusively through our official website and verified channels. We are not affiliated with, nor do we endorse, any third-party applications or websites of the same name currently available on external platforms. Any contact or service claiming to be \"Lunive\" outside of our official channels — especially in the context of dating, personal relationships, or financial schemes — is not affiliated with us in any way.",
+    "trademarkBody": "The names, logos, and icons identifying Lunive™ are proprietary marks of Lunive, filed with the Korean Intellectual Property Office (KIPO) under Application No. 40-2026-0034321 (Class 9 & 42), currently pending registration with priority rights established. Unauthorized use of any trademark or service mark may violate applicable trademark and unfair competition laws. No license is granted without the express written consent of Lunive.",
+    "copyright": "All rights reserved."
+  },
+  "home": {
+    "heroIntro": "Welcome to",
+    "heroBrand": "Lunive",
+    "heroTagline": "Be flexible.",
+    "aboutHeading": "Software designed around the user.",
+    "aboutBody": "Lunive is a one-person software brand building tools that respect the people who use them. Our first product is Cadenza — a Discord music bot with a real, polished web interface.",
+    "ctaCadenza": "Meet Cadenza",
+    "ctaStories": "Read the stories",
+    "ctaAbout": "About Lunive"
+  },
+  "stories": {
+    "indexTitle": "Stories",
+    "indexDescription": "Essays and long-form writing on what we're building and why.",
+    "previous": "Older",
+    "next": "Newer",
+    "readMore": "Read"
+  },
+  "about": {
+    "title": "About"
+  },
+  "cadenza": {
+    "title": "Cadenza",
+    "tagline": "Discord music with a real interface.",
+    "ctaTry": "Try it on Discord",
+    "ctaStory": "Read how we built it"
+  },
+  "legal": {
+    "title": "Legal"
+  }
+}

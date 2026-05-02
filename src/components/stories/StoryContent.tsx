@@ -16,13 +16,18 @@ interface StoryContentProps {
   story: Story;
   previous: StoryMeta | null;
   next: StoryMeta | null;
+  navLabels?: { previous: string; next: string };
+  backLink?: { href: string; label: string };
 }
 
 export default function StoryContent({
   story,
   previous,
   next,
+  navLabels,
+  backLink = { href: "/stories", label: "Stories" },
 }: StoryContentProps) {
+  const dateLocale = story.locale === "ko" ? "ko-KR" : "en-US";
   return (
     <>
       <TableOfContents items={story.toc} />
@@ -33,11 +38,15 @@ export default function StoryContent({
             title={story.title}
             subtitle={story.subtitle ?? story.description}
             heroMedia={story.heroMedia}
+            // This hero is the page LCP — opt into next/image priority so the
+            // browser preloads it instead of waiting for the parser to reach
+            // the <img>. Saves ~200–400ms of LCP on cold loads.
+            priority
           />
           <div className="max-w-[720px] mx-auto mt-10 mb-2 flex flex-wrap items-center gap-3 text-sm text-[var(--essay-muted)]">
             {story.date && (
               <time dateTime={story.date} className="font-[family-name:var(--font-inter)]">
-                {new Date(story.date).toLocaleDateString("en-US", {
+                {new Date(story.date).toLocaleDateString(dateLocale, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -69,7 +78,7 @@ export default function StoryContent({
             title={story.title}
             date={story.date}
             tags={story.tags}
-            backLink={{ href: "/stories", label: "Stories" }}
+            backLink={backLink}
           />
         )}
 
@@ -77,7 +86,7 @@ export default function StoryContent({
           <MarkdownRenderer content={story.content} />
         </article>
 
-        <ArticleNav previous={previous} next={next} />
+        <ArticleNav previous={previous} next={next} labels={navLabels} />
       </main>
     </>
   );

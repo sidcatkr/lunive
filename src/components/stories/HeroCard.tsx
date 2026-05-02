@@ -15,6 +15,13 @@ interface HeroCardProps {
    * inside an ExpandOnScroll wrapper that controls the outer dimensions.
    */
   fill?: boolean;
+  /**
+   * When true, the hero image renders with priority (next/image preload +
+   * high fetchpriority). Set true when this hero is the LCP element on the
+   * page (e.g. the masthead on a story-detail page); leave false on the
+   * /stories index where the card sits below the heading and isn't LCP.
+   */
+  priority?: boolean;
 }
 
 export default function HeroCard({
@@ -25,6 +32,7 @@ export default function HeroCard({
   heroMedia,
   linked = false,
   fill = false,
+  priority = false,
 }: HeroCardProps) {
   const content = (
     <div
@@ -38,7 +46,10 @@ export default function HeroCard({
           {title}
         </h2>
         {subtitle && (
-          <p className="font-[family-name:var(--font-newsreader)] text-[clamp(1rem,1.6cqw,1.375rem)] text-white/70 leading-snug max-w-xl">
+          <p
+            data-speakable
+            className="font-[family-name:var(--font-newsreader)] text-[clamp(1rem,1.6cqw,1.375rem)] text-white/70 leading-snug max-w-xl"
+          >
             {subtitle}
           </p>
         )}
@@ -61,6 +72,7 @@ export default function HeroCard({
             alt={heroMedia.alt ?? title}
             contained
             fillParent
+            priority={priority}
           />
         </div>
       )}

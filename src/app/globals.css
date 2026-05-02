@@ -1,202 +1,177 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
-  --accent-color: 255, 230, 0;
-}
-
-html {
-  background-color: rgb(var(--background-start-rgb));
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.1) 1px,
-    transparent 0
-  );
-  background-size: 40px 40px;
-  background-position: -19px -19px;
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════
-   STORIES — All CSS declared in globals.css so it's available at first paint.
-   Driven by html[data-essay-theme] attribute set by the blocking <script>
-   in app/layout.tsx BEFORE React hydrates → zero flash on any browser/device.
+   THEME — Single source of truth for every page.
+   `<html data-essay-theme="light|dark">` is set synchronously by the blocking
+   <script> in [locale]/layout.tsx BEFORE first paint, so colors apply with
+   zero flash. Every theme-aware element reads from the same CSS variables.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── CSS custom properties ────────────────────────────────────────────────── */
-html[data-essay-theme="light"] .stories-layout,
-html:not([data-essay-theme]) .stories-layout {
-  --essay-bg: #faf7f2;
-  --essay-text: #141413;
-  --essay-muted: #6b6863;
-  --essay-border: #e6e1d7;
-  --essay-rule: #dcd7cd;
-  --essay-accent: #3b82f6;
-  --essay-card: #ffffff;
-  --essay-card-dark: #0d0d0d;
-  --essay-code-bg: rgba(20, 20, 19, 0.05);
+:root {
+  /* Latin first, Korean fallback. Browser auto-selects per glyph. */
+  --font-sans:
+    var(--font-inter), "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Malgun Gothic",
+    sans-serif;
+  /* Latin headings use Newsreader. Korean glyphs cascade to Pretendard
+     (sans) — the previous look the user prefers. */
+  --font-serif:
+    var(--font-newsreader), "Pretendard Variable", Pretendard,
+    "Apple SD Gothic Neo", "Malgun Gothic", Georgia, serif;
 }
-html[data-essay-theme="dark"] .stories-layout {
+
+/* Light theme (default if attribute is unset, e.g. before script runs). */
+html[data-essay-theme="light"],
+html:not([data-essay-theme]) {
+  --essay-bg: #faf7f2;
+  --essay-bg-elevated: #ffffff;
+  --essay-text: #141413;
+  --essay-text-strong: #0a0a09;
+  --essay-muted: #5d5a55;
+  --essay-faint: #8b877f;
+  --essay-border: #e2dccf;
+  --essay-rule: #d2cbbc;
+  --essay-accent: #2f3744;
+  --essay-link: #2563eb;
+  --essay-card: #ffffff;
+  --essay-code-bg: rgba(20, 20, 19, 0.05);
+  --essay-overlay: rgba(20, 20, 19, 0.05);
+  --essay-overlay-strong: rgba(20, 20, 19, 0.1);
+  /* Hero accent — readable on cream. */
+  --hero-accent: #b45309; /* amber-700 */
+  --hero-accent-soft: rgba(180, 83, 9, 0.06);
+  --hero-accent-soft-strong: rgba(180, 83, 9, 0.1);
+  color-scheme: light;
+}
+
+html[data-essay-theme="dark"] {
   --essay-bg: #0b0b0a;
+  --essay-bg-elevated: #161513;
   --essay-text: #ecebe6;
+  --essay-text-strong: #ffffff;
   --essay-muted: #a3a09a;
+  --essay-faint: #6b6863;
   --essay-border: #242321;
   --essay-rule: #2a2826;
-  --essay-accent: #60a5fa;
+  --essay-accent: #d6d3cc;
+  --essay-link: #60a5fa;
   --essay-card: #161513;
-  --essay-card-dark: #0a0a0a;
   --essay-code-bg: rgba(236, 235, 230, 0.08);
+  --essay-overlay: rgba(255, 255, 255, 0.06);
+  --essay-overlay-strong: rgba(255, 255, 255, 0.12);
+  /* Hero accent — bright on near-black. */
+  --hero-accent: #fde047; /* yellow-300 */
+  --hero-accent-soft: rgba(253, 224, 71, 0.06);
+  --hero-accent-soft-strong: rgba(253, 224, 71, 0.12);
+  color-scheme: dark;
 }
 
-/* ── stories-layout base ──────────────────────────────────────────────────── */
-.stories-layout {
-  background-color: var(--essay-bg, #fafaf9);
-  color: var(--essay-text, #1a1a1a);
+/* Apply the theme to <html>/<body> globally — every page inherits. */
+html {
+  background-color: var(--essay-bg);
+  /* Always reserve gutter for the vertical scrollbar so locking body
+     scroll (e.g. when the cmd+K overlay opens) doesn't shift the entire
+     layout to the right. */
+  scrollbar-gutter: stable;
+  /* Horizontal-clip so full-bleed `width: 100vw` sections (which extend
+     past the scrollbar gutter) don't trigger a horizontal scrollbar at
+     the document level. `clip` doesn't create a new scroll container, so
+     `position: sticky` continues to track the document's vertical scroll
+     instead of getting trapped inside an ancestor scroller. */
+  overflow-x: clip;
+}
+body {
+  font-family: var(--font-sans);
+  background-color: var(--essay-bg);
+  color: var(--essay-text);
   min-height: 100vh;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Korean: never break inside a word. Latin is unaffected. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  /* Full-bleed sections (e.g. <ExpandOnScroll>) extend to true viewport
+     width (100vw), which is wider than the body's content area when
+     `scrollbar-gutter: stable` reserves space for the scrollbar. Use
+     `overflow-x: clip` (not `hidden`) so this breakout doesn't trigger a
+     horizontal scrollbar — `clip` clips visually without creating a new
+     scroll container, so `position: sticky` inside still works against the
+     viewport instead of getting trapped by an ancestor scroll context. */
+  overflow-x: clip;
+}
+
+/* Headings inherit the same word-break rule. */
+h1, h2, h3, h4, h5, h6 {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* ── Scrollbar — invisible at rest, visible only on direct hover ────────────
+   The page-level gutter is still reserved (see `scrollbar-gutter: stable` on
+   <html>) so the layout is rock-solid when the cmd+K overlay locks body
+   scroll. But the scrollbar itself is rendered fully transparent so it never
+   shows up against full-bleed elements like the <ExpandOnScroll> card.
+   Pointing directly AT the gutter still reveals the thumb (the
+   `::-webkit-scrollbar-thumb:hover` rule), so the scroll affordance is
+   discoverable for anyone who reaches for it — it just doesn't intrude on
+   the design when nobody's looking. macOS users typically scroll via
+   trackpad/wheel anyway, where the OS surfaces its own brief scroll
+   indicator. */
+* {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 150ms ease;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--essay-muted);
+  background-clip: content-box;
+}
+
+/* ── Hero fallback — make text visible when reduced motion is preferred or
+   when JS hasn't run (search bots, slow connections). ──────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-text-container {
+    visibility: visible !important;
+  }
+}
+.no-js .hero-text-container {
+  visibility: visible !important;
+}
+
+/* ── Hero accent (theme-aware highlight color) ─────────────────────────── */
+.hero-accent-text {
+  color: var(--hero-accent);
+}
+.hero-blob-soft {
+  background-color: var(--hero-accent-soft);
+}
+.hero-blob-soft-strong {
+  background-color: var(--hero-accent-soft-strong);
+}
+
+/* ── Optional helper for essay-style pages (about, cadenza, stories). ─── */
+.stories-layout {
+  background-color: var(--essay-bg);
+  color: var(--essay-text);
+  min-height: 100vh;
   cursor: auto;
-}
-/* Smooth border/divide/color transitions on ALL descendants during theme toggle */
-.stories-layout [class*="border-"],
-.stories-layout [class*="divide-"] > * + *,
-.stories-layout [role="separator"] {
-  transition:
-    border-color 0.3s ease,
-    color 0.3s ease,
-    background-color 0.3s ease;
-}
-
-/* ── Body / html reset for stories pages ─────────────────────────────────── */
-/* data-stories is set on <html> by the blocking script (document.body is    */
-/* null when <head> scripts run, so we use documentElement instead).          */
-/* Override BOTH html and body backgrounds — on iOS Safari the html bg-color */
-/* bleeds through during overscroll bounce and compositing.                   */
-html[data-stories] {
-  transition: background-color 0.3s ease;
-}
-html[data-stories] body {
-  transition: background-color 0.3s ease;
-}
-html[data-stories][data-essay-theme="light"],
-html[data-stories]:not([data-essay-theme]) {
-  background-color: #faf7f2 !important;
-}
-html[data-stories][data-essay-theme="light"] body,
-html[data-stories]:not([data-essay-theme]) body {
-  background-color: #faf7f2 !important;
-  background-image: none !important;
-  background-size: unset !important;
-  background-position: unset !important;
-  overflow-x: hidden;
-}
-html[data-stories][data-essay-theme="dark"] {
-  background-color: #0b0b0a !important;
-}
-html[data-stories][data-essay-theme="dark"] body {
-  background-color: #0b0b0a !important;
-  background-image: none !important;
-  background-size: unset !important;
-  background-position: unset !important;
-  overflow-x: hidden;
-}
-
-/* ── Navbar (body > header only — not page-level <header> elements) ─────── */
-html[data-stories] body > header {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-html[data-stories] body > header span,
-html[data-stories] body > header nav,
-html[data-stories] body > header a,
-html[data-stories] body > header button {
-  transition: color 0.3s ease;
-}
-html[data-stories][data-essay-theme="light"] body > header,
-html[data-stories]:not([data-essay-theme]) body > header {
-  background-color: #faf7f2 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-}
-html[data-stories][data-essay-theme="light"] body > header span,
-html[data-stories][data-essay-theme="light"] body > header nav,
-html[data-stories][data-essay-theme="light"] body > header a,
-html[data-stories][data-essay-theme="light"] body > header button,
-html[data-stories]:not([data-essay-theme]) body > header span,
-html[data-stories]:not([data-essay-theme]) body > header nav,
-html[data-stories]:not([data-essay-theme]) body > header a,
-html[data-stories]:not([data-essay-theme]) body > header button {
-  color: #141413 !important;
-}
-html[data-stories][data-essay-theme="dark"] body > header {
-  background-color: #0b0b0a !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  box-shadow: none !important;
-}
-html[data-stories][data-essay-theme="dark"] body > header span,
-html[data-stories][data-essay-theme="dark"] body > header nav,
-html[data-stories][data-essay-theme="dark"] body > header a,
-html[data-stories][data-essay-theme="dark"] body > header button {
-  color: #ecebe6 !important;
-}
-
-/* ── Footer ───────────────────────────────────────────────────────────────── */
-html[data-stories][data-essay-theme="light"] footer,
-html[data-stories]:not([data-essay-theme]) footer {
-  background-color: #faf7f2 !important;
-  border-color: #e6e1d7 !important;
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease;
-}
-html[data-stories][data-essay-theme="light"] footer p,
-html[data-stories][data-essay-theme="light"] footer span,
-html[data-stories][data-essay-theme="light"] footer a,
-html[data-stories]:not([data-essay-theme]) footer p,
-html[data-stories]:not([data-essay-theme]) footer span,
-html[data-stories]:not([data-essay-theme]) footer a {
-  color: #6b6863 !important;
-}
-html[data-stories][data-essay-theme="light"] footer strong,
-html[data-stories]:not([data-essay-theme]) footer strong {
-  color: #141413 !important;
-}
-html[data-stories][data-essay-theme="dark"] footer {
-  background-color: #0b0b0a !important;
-  border-color: #242321 !important;
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease;
-}
-html[data-stories] footer p,
-html[data-stories] footer span,
-html[data-stories] footer a,
-html[data-stories] footer strong {
-  transition: color 0.3s ease;
-}
-html[data-stories][data-essay-theme="dark"] footer p,
-html[data-stories][data-essay-theme="dark"] footer span,
-html[data-stories][data-essay-theme="dark"] footer a {
-  color: #a3a09a !important;
-}
-html[data-stories][data-essay-theme="dark"] footer strong {
-  color: #ecebe6 !important;
 }
 
 /* ── Anthropic-style typographic underline ────────────────────────────────── */
@@ -207,18 +182,39 @@ html[data-stories][data-essay-theme="dark"] footer strong {
   text-decoration-skip-ink: none;
 }
 
-/* ── Prose essay styles ───────────────────────────────────────────────────── */
+/* ── Prose essay styles (Stories article body) ────────────────────────────── */
 .prose-essay {
-  font-family: var(--font-newsreader), Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 1.1875rem;
-  line-height: 1.75;
+  line-height: 1.78;
   letter-spacing: -0.003em;
+  color: var(--essay-text);
+}
+.prose-essay h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.18;
+  margin-top: 3.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--essay-text-strong);
+}
+.prose-essay h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1.8vw, 1.4rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--essay-text-strong);
 }
 .prose-essay p {
   margin-bottom: 1.5rem;
 }
 .prose-essay a {
-  color: var(--essay-accent);
+  color: var(--essay-link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -231,9 +227,6 @@ html[data-stories][data-essay-theme="dark"] footer strong {
   margin: 2rem 0;
   font-style: italic;
   color: var(--essay-muted);
-  transition:
-    border-color 0.3s ease,
-    color 0.3s ease;
 }
 .prose-essay code {
   font-size: 0.875em;
@@ -260,77 +253,57 @@ html[data-stories][data-essay-theme="dark"] footer strong {
 .prose-essay .footnotes li {
   font-size: 0.875rem;
   color: var(--essay-muted);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-sans);
 }
 .prose-essay .footnotes a {
-  color: var(--essay-accent);
+  color: var(--essay-link);
 }
 @media (max-width: 1024px) {
   .prose-essay {
     font-size: 1.0625rem;
-    line-height: 1.72;
+    line-height: 1.74;
   }
 }
 
-/* ── Stories index list — hover underline on title ────────────────────────── */
+/* ── Stories index ────────────────────────────────────────────────────────── */
 .stories-index {
   min-height: 100vh;
 }
 
 /* ── Hide the TOC while the reader is before / inside any ExpandOnScroll
-      on the page. It fades back in once scroll passes the last expand,
-      i.e. the reader is in "normal reading" territory. */
+      on the page. It fades back in once scroll passes the last expand. ──── */
 html[data-toc-blocked] [data-toc] {
   opacity: 0;
   pointer-events: none;
 }
 
+/* ── Word/char split for animated headings ──────────────────────────────── */
 .split-word {
   display: inline-block;
 }
-
 .split-char {
   display: inline-block;
 }
 
-.accent-text {
-  color: rgb(var(--accent-color));
+/* ── View Transitions API (page-level crossfade for SPA navigations) ───── */
+/* Enables a smooth ~180ms crossfade for ALL same-origin navigations,
+   including locale toggles. Without this, a locale change causes the
+   whole page text to swap in a single repaint, which reads as a "flash".
+   The crossfade is gentle enough to feel deliberate, not like a slow
+   transition. The locale-pill is animated by Motion separately, so it's
+   excluded from the root group via `view-transition-name: none`. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* Some elements (like Motion-animated pills) manage their own animations.
+   Marking them `view-transition-name: none` hides them from the snapshot
+   so they keep moving normally during the page transition. */
+[data-no-vt] {
+  view-transition-name: none;
 }
 
-.accent-bg {
-  background-color: rgb(var(--accent-color));
-}
-
-.quick-start-btn {
-  background-color: #0070f3;
-  color: white;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.quick-start-btn:hover {
-  background-color: #0060df;
-}
-
-/* Add will-change for better performance on animations */
-.will-change-transform {
-  will-change: transform;
-}
-
-/* Add motion blur support */
-@keyframes blur-transition {
-  0% {
-    filter: blur(4px);
-  }
-  100% {
-    filter: blur(0px);
-  }
-}
-
-.blur-transition {
-  animation: blur-transition 0.3s ease-out forwards;
-}
-
-/* Hide default cursor block removed to keep native cursor visible */

@@ -6,10 +6,13 @@ import ExpandOnScroll from "./ExpandOnScroll";
 
 interface FeaturedStoryProps {
   story: StoryMeta;
+  cta?: string;
 }
 
-export default function FeaturedStory({ story }: FeaturedStoryProps) {
-  const href = `/stories/${story.slug}`;
+export default function FeaturedStory({ story, cta }: FeaturedStoryProps) {
+  // Hard-coded locale prefix so the link is correct regardless of which
+  // navigation library renders it.
+  const href = `/${story.locale}/stories/${story.slug}`;
 
   // Render a static card (no scroll takeover) when there's no hero visual,
   // or when the author explicitly opted out with `expand: false`.
@@ -22,6 +25,7 @@ export default function FeaturedStory({ story }: FeaturedStoryProps) {
           href={href}
           heroMedia={story.heroMedia}
           linked
+          cta={cta}
         />
       </section>
     );
@@ -41,6 +45,7 @@ export default function FeaturedStory({ story }: FeaturedStoryProps) {
         heroMedia={story.heroMedia}
         linked
         fill
+        cta={cta}
       />
     </ExpandOnScroll>
   );
