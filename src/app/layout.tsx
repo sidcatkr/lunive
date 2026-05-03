@@ -116,17 +116,34 @@ export default async function RootLayout({
       style={{ backgroundColor: themeBg }}
     >
       <head>
+        {/*
+          Pre-paint theme resolver. Runs synchronously in <head>, before any
+          stylesheet or paint. Reconciles three signals:
+            1) Cookie (server already used this for SSR — trust it; bail out)
+            2) localStorage (user previously chose explicitly)
+            3) prefers-color-scheme (system default — first-time visitors)
+
+          Critically, when this script *flips* the theme away from the SSR
+          default (e.g., server rendered light because no cookie was set, but
+          system is dark), it must also overwrite the SSR'd inline
+          `background-color` on <html> AND <body>. Otherwise the dark
+          theme's cream `--essay-text` ends up rendered against the SSR'd
+          light bg — readable nowhere — which produced the "white flash with
+          invisible text" some users saw on first visit.
+        */}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{
-var html=document.documentElement;
-var hasCookie=document.cookie.indexOf('essay-theme=')!==-1;
-if(hasCookie)return;
+var d=document,h=d.documentElement,c=d.cookie.indexOf('essay-theme=');
+if(c!==-1)return;
 var t=localStorage.getItem('essay-theme');
-var dark=t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme:dark)').matches);
-var v=dark?'dark':'light';
-html.setAttribute('data-essay-theme',v);
-document.cookie='essay-theme='+v+'; max-age=31536000; path=/; samesite=lax';
+var dark=t==='dark'||(t===null&&matchMedia('(prefers-color-scheme:dark)').matches);
+var v=dark?'dark':'light',bg=dark?'#0b0b0a':'#faf7f2';
+h.setAttribute('data-essay-theme',v);
+h.style.backgroundColor=bg;
+d.cookie='essay-theme='+v+'; max-age=31536000; path=/; samesite=lax';
+if(d.body){d.body.style.backgroundColor=bg;return;}
+new MutationObserver(function(_,o){if(d.body){d.body.style.backgroundColor=bg;o.disconnect();}}).observe(h,{childList:true,subtree:true});
 }catch(e){}})()`,
           }}
         />
